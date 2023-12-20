@@ -41,7 +41,7 @@ android {
     }
 
     defaultConfig {
-        // need : Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        // Need: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.example.app"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
@@ -53,7 +53,7 @@ android {
 
     buildTypes {
         release {
-            // need: Add your own signing config for the release build.
+            // Need: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
         }
@@ -64,4 +64,9 @@ flutter {
     source '../..'
 }
 
-dependencies {}
+ext.kotlin_version = '1.5.31'
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    // ...
+}
