@@ -18,9 +18,11 @@ class AppConfig {
   static const String apiKeyGoogle = "LATER";
 
   // Couleurs de l'application
-  static const Color primaryColor = Color(0xffdd7631);
-  static const Color secondaryColor = Color(0xffbb3b0e);
-  static const Color tertiaryColor = Color(0xffd8c593);
+  static const Color principalColor = Color(0xff527853);
+  static const Color primaryColor = Color(0xfff7b787);
+  static const Color secondaryColor = Color(0xffee7214);
+  static const Color backgroundColor = Color(0xf5f5f5f5);
+
 
   static const Color validPrimaryColor = Color(0xff4dff3c);
   static const Color validSecondaryColor = Color(0xff41b935);
