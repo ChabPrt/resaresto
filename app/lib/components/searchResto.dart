@@ -1,0 +1,169 @@
+import 'package:flutter/material.dart';
+import 'package:app/config/app_config.dart';
+
+class SearchResto extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: RestaurantForm(),
+    );
+  }
+}
+
+class RestaurantForm extends StatefulWidget {
+  @override
+  _RestaurantFormState createState() => _RestaurantFormState();
+}
+
+class _RestaurantFormState extends State<RestaurantForm> {
+  final TextEditingController _locationController = TextEditingController();
+  final TextEditingController _restaurantNameController =
+  TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(75.0),
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/img/background_search.jpg"),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "Une envie de restaurant ?",
+            style: TextStyle(
+              fontSize: 24.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 25.0),
+          Container(
+            padding: const EdgeInsets.all(10.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: Colors.white),
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppConfig.primaryColor),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.location_on,
+                          color: AppConfig.primaryColor,
+                        ),
+                        const SizedBox(width: 8.0),
+                        Expanded(
+                          child: TextFormField(
+                            controller: _locationController,
+                            decoration: const InputDecoration(
+                              hintText: "À proximité de …",
+                              hintStyle: TextStyle(
+                                  color: AppConfig.fontLightGreyColor,
+                                  fontWeight: FontWeight.normal
+                              ),
+                              border: InputBorder.none,
+                            ),
+                            style: const TextStyle(
+                                color: AppConfig.fontBlackColor,
+                                fontWeight: FontWeight.w500
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            _locationController.clear();
+                          },
+                          icon: const Icon(
+                            Icons.clear,
+                            color: AppConfig.primaryColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 10.0),
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppConfig.primaryColor),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.search,
+                          color: AppConfig.primaryColor,
+                        ),
+                        const SizedBox(width: 8.0),
+                        Expanded(
+                          child: TextFormField(
+                            controller: _restaurantNameController,
+                            decoration: const InputDecoration(
+                              hintText: "Cuisine, nom de restaurant…",
+                              hintStyle: TextStyle(
+                                  color: AppConfig.fontLightGreyColor,
+                                  fontWeight: FontWeight.normal
+                              ),
+                              border: InputBorder.none,
+                            ),
+                            style: const TextStyle(
+                                color: AppConfig.fontBlackColor,
+                                fontWeight: FontWeight.w500
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            _restaurantNameController.clear();
+                          },
+                          icon: const Icon(
+                            Icons.clear,
+                            color: AppConfig.primaryColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 10.0),
+                ElevatedButton(
+                  onPressed: () {
+                    // Action à effectuer lors de la validation
+                    // Par exemple, afficher les informations saisies
+                    print("Lieu : ${_locationController.text}");
+                    print("Nom du restaurant : ${_restaurantNameController.text}");
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: AppConfig.primaryColor,
+                    onPrimary: AppConfig.fontWhiteColor,
+                    padding: const EdgeInsetsDirectional.symmetric(horizontal: 50.0, vertical: 25.0),
+                    shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                  child: const Text("Recherche"),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
