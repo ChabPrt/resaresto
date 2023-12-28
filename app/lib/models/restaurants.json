@@ -1,0 +1,40 @@
+{
+  "restaurants": [
+    {
+      "id": 1,
+      "name": "Le Bistrot Parisien",
+      "cuisine": "French",
+      "rating": 4.5,
+      "address": {
+        "street": "123 Rue de la Gastronomie",
+        "city": "Paris",
+        "zipcode": "75001"
+      },
+      "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/122d7825-102d-11ea-bf03-06551cb39bc6.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Japan Sushi",
+      "cuisine": "Japanese",
+      "rating": 4.2,
+      "address": {
+        "street": "456 Sushi Street",
+        "city": "Tokyo",
+        "zipcode": "12345"
+      },
+      "image": "https://cdn.cheapoguides.com/wp-content/uploads/sites/2/2023/08/Gansozushi-outside_Aimee-Gardner-770x434.jpg"
+    },
+    {
+      "id": 3,
+      "name": "Pizza Napoli",
+      "cuisine": "Italian",
+      "rating": 4.0,
+      "address": {
+        "street": "789 Pizzeria Avenue",
+        "city": "Naples",
+        "zipcode": "80123"
+      },
+      "image": null
+    }
+  ]
+}
