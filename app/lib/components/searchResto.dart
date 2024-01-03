@@ -25,7 +25,7 @@ class _RestaurantFormState extends State<RestaurantForm> {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 35.0),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 125.0),
+          padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 120.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(25.0),
             image: const DecorationImage(
@@ -153,8 +153,8 @@ class _RestaurantFormState extends State<RestaurantForm> {
                         print("Nom du restaurant : ${_restaurantNameController.text}");
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: AppConfig.principalColor,
-                        onPrimary: AppConfig.fontWhiteColor,
+                        backgroundColor: AppConfig.principalColor,
+                        foregroundColor: AppConfig.fontWhiteColor,
                         padding: const EdgeInsetsDirectional.symmetric(horizontal: 50.0, vertical: 25.0),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
