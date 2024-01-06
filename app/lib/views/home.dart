@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../components/header.dart';
 import '../components/searchResto.dart';
 import '../components/reviewsHome.dart';
+import 'package:app/views/login.dart';
 
 class HomeView extends StatelessWidget {
   @override
@@ -14,6 +16,16 @@ class HomeView extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => SearchResto()),
+              );
+            },
+            onLogoutPressed: () async {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.remove('user'); // Supprimer l'e-mail stocké
+
+              // Rediriger vers la page de connexion
+              Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => loginView()),
               );
             }
           ),

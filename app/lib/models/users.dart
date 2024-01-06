@@ -15,6 +15,17 @@ class User {
     this.image,
   });
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'role': role,
+      'name': name,
+      'mail': mail,
+      'pass': pass,
+      'image': image,
+    };
+  }
+
   static User fromJson(Map<String, dynamic> json) {
     return User(
       id: json['id'],
