@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../config/app_config.dart';
-import 'package:app/views/login.dart';
+import 'package:app/views/connexionView.dart';
 
 class Header extends StatelessWidget {
   final String title = AppConfig.appName;
@@ -52,7 +52,7 @@ class Header extends StatelessWidget {
             if (userEmail.isEmpty) {
               // L'e-mail n'est pas présent, rediriger vers le formulaire de connexion
               Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => loginView()),
+                MaterialPageRoute(builder: (context) => LoginView()),
               );
               return Container(); // Retourner un conteneur vide car la redirection a été effectuée
             }

@@ -2,10 +2,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
-import 'package:app/views/home.dart';
+import 'package:app/views/homeView.dart';
+import '../config/app_config.dart';
 import './registerForm.dart';
-
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -26,26 +27,55 @@ class _LoginFormState extends State<LoginForm> {
   final TextEditingController passwordController = TextEditingController();
   bool showError = false;
 
+  Future<void> verifyUser(String email, String password) async {
+    try {
+      final apiUrl = Uri.parse('${AppConfig.apiBaseUrl}/Utilisateurs/Authorize')
+          .replace(queryParameters: {
+        'Mail': email,
+        'Pass': password,
+      });
+
+      final response = await http.get(apiUrl);
+
+      if (response.statusCode == 200) {
+        // Ajouter le mécanisme de "cookie" en utilisant SharedPreferences
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('user', emailController.text);
+
+        // Rediriger l'utilisateur vers la page HomeView
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomeView()),
+        );
+      } else {
+        setState(() {
+          showError = true;
+        });
+      }
+    } catch (e) {
+      print('Erreur de requête: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           TextField(
             controller: emailController,
-            decoration: InputDecoration(labelText: 'Email'),
+            decoration: const InputDecoration(labelText: 'Adresse e-mail'),
           ),
           TextField(
             controller: passwordController,
             obscureText: true,
-            decoration: InputDecoration(labelText: 'Password'),
+            decoration: const InputDecoration(labelText: 'Mot de passe'),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () async {
-              // Valider les champs du formulaire
               if (emailController.text.isEmpty || passwordController.text.isEmpty) {
                 setState(() {
                   showError = true;
@@ -53,50 +83,40 @@ class _LoginFormState extends State<LoginForm> {
                 return;
               }
 
-              String usersData = await rootBundle.loadString('../data/users.json');
-              Map<String, dynamic> jsonData = json.decode(usersData);
-
-              // Vérifier l'existence de l'utilisateur
-              List<dynamic> usersList = jsonData['Users'];
-              bool userExists = usersList.any((user) =>
-              user['mail'] == emailController.text && user['pass'] == passwordController.text);
-
-              if (userExists) {
-                // Ajouter le mécanisme de "cookie" en utilisant SharedPreferences
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                prefs.setString('user', emailController.text);
-
-                // Rediriger l'utilisateur vers la page HomeView
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomeView()),
-                );
-              } else {
-                // Afficher une erreur si l'utilisateur n'existe pas
-                setState(() {
-                  showError = true;
-                });
-              }
-
+              await verifyUser(emailController.text, passwordController.text);
             },
-            child: Text('Login'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppConfig.principalColor,
+              foregroundColor: AppConfig.fontWhiteColor,
+              padding: const EdgeInsetsDirectional.symmetric(horizontal: 50.0, vertical: 25.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+            ),
+            child: const Text('Valider'),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           showError
-              ? Text(
+              ? const Text(
             'Email ou mot de passe incorrect',
             style: TextStyle(color: Colors.red),
           )
               : Container(),
-          SizedBox(height: 20),
-          TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => RegistrationScreen()),
-              );
-            },
-            child: Text('Create an account'),
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('Pas encore de compte ?'),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => RegistrationScreen()),
+                  );
+                },
+                child: const Text('Inscrivez-vous !'),
+              ),
+            ],
           ),
         ],
       ),

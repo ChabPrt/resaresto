@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-//import 'package:google_fonts/google_fonts.dart';
 
 class AppConfig {
   static const String appName = "RésaResto";
@@ -11,8 +10,8 @@ class AppConfig {
   //  color: fontPrimaryColor,
   //);
 
-  // URL de base pour les requêtes API
-  static const String apiBaseUrl = "LATER";
+  static const String apiBaseUrl = "https://resaresto.dev.arch.innlog.app";
+  static const String apiKey = "41ff3dbb-a036-4d3f-93b2-9522b1b86d06";
 
   // Clé d'API pour les services externes
   static const String apiKeyGoogle = "LATER";

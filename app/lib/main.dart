@@ -1,6 +1,6 @@
 import 'package:app/config/app_config.dart';
 import 'package:flutter/material.dart';
-import 'views/login.dart';
+import 'views/connexionView.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,10 +10,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: loginView(),
+      home: LoginView(),
       theme: ThemeData(
-      // Change the background color here
-      scaffoldBackgroundColor: AppConfig.backgroundColor, // Replace 'Colors.blue' with your desired color
+      scaffoldBackgroundColor: AppConfig.backgroundColor,
     ),
     );
   }

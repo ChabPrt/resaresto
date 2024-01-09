@@ -4,9 +4,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/services.dart';
 import './reviewCard.dart';
 
-import '../models/reviews.dart';
-import '../models/restaurants.dart';
-import '../models/users.dart';
+import '../models/reviewModel.dart';
+import '../models/restaurantModel.dart';
+import '../models/userModel.dart';
 
 class ReviewsHome extends StatelessWidget {
   final List<ReviewCard> reviewCards;
@@ -79,7 +79,7 @@ class ReviewsHomeWrapper extends StatelessWidget {
             images: jsonReview['images'] != null ? List<String>.from(jsonReview['images']) : null,
           ),
           restaurantName: restaurant.name,
-          userName: user.name,
+          userName: user.nom + " " + user.prenom,
         );
       }).toList();
 

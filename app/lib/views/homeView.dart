@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../components/header.dart';
 import '../components/searchResto.dart';
 import '../components/reviewsHome.dart';
-import 'package:app/views/login.dart';
+import 'package:app/views/connexionView.dart';
 
 class HomeView extends StatelessWidget {
   @override
@@ -20,12 +20,12 @@ class HomeView extends StatelessWidget {
             },
             onLogoutPressed: () async {
               SharedPreferences prefs = await SharedPreferences.getInstance();
-              prefs.remove('user'); // Supprimer l'e-mail stocké
+              prefs.remove('user');
 
               // Rediriger vers la page de connexion
               Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => loginView()),
+              MaterialPageRoute(builder: (context) => LoginView()),
               );
             }
           ),
