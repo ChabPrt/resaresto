@@ -24,7 +24,6 @@ flutter:
   uses-material-design: true
   assets:
     - assets/img/
-    - data/
   fonts:
     - family: Lumanosimo
       fonts:
