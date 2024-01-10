@@ -1,3 +1,4 @@
+import 'package:app/views/profileView.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../components/header.dart';
@@ -15,7 +16,7 @@ class HomeView extends StatelessWidget {
             onProfilePressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => SearchResto()),
+                MaterialPageRoute(builder: (context) => ProfileView()),
               );
             },
             onLogoutPressed: () async {

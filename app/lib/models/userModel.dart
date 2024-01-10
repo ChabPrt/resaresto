@@ -4,7 +4,7 @@ class User {
   final String prenom;
   final String mail;
   final String pass;
-  final String? levelAcces;
+  final int? levelAcces;
   final String? image;
 
   User({
@@ -19,10 +19,12 @@ class User {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'nom': nom,
       'prenom': prenom,
       'mail': mail,
       'pass': pass,
+      'levelAcces': levelAcces,
       'image': image,
     };
   }
