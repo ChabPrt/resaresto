@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:http/http.dart' as http;
+
 import '../config/app_config.dart';
 import 'package:app/views/connexionView.dart';
 
@@ -20,17 +22,32 @@ class Header extends StatelessWidget {
   }
 
   Future<String> getUserImageLink(String userEmail) async {
-    // Charger le fichier users.json (ajustez le chemin selon votre structure de projet)
-    String usersJsonString = await rootBundle.loadString('../data/users.json');
-    Map<String, dynamic> jsonData = json.decode(usersJsonString);
+    final String apiUrl = '${AppConfig.apiBaseUrl}/Utilisateurs/Recuperer/$userEmail';
 
-    // Rechercher l'utilisateur correspondant à l'e-mail
-    var usersList = jsonData['Users'] as List;
-    var userData = usersList.firstWhere((user) => user['mail'] == userEmail, orElse: () => null);
+    try {
+      final response = await http.get(Uri.parse(apiUrl));
 
-    // Retourner le lien d'image de l'utilisateur ou un lien par défaut si non trouvé
-    return userData != null ? userData['image'] ?? 'assets/img/user_default_icon.jpg' : 'assets/img/user_default_icon.jpg';
+      if (response.statusCode == 200) {
+        // Analysez la réponse JSON
+        Map<String, dynamic> jsonData = json.decode(response.body);
 
+        // Recherchez l'utilisateur correspondant à l'e-mail
+        var usersList = jsonData['Users'] as List;
+        var userData =
+        usersList.firstWhere((user) => user['mail'] == userEmail, orElse: () => null);
+
+        // Retournez le lien d'image de l'utilisateur ou un lien par défaut s'il n'est pas trouvé
+        return userData != null ? userData['image'] ?? 'assets/img/user_default_icon.jpg' : 'assets/img/user_default_icon.jpg';
+      } else {
+        // Gérez les erreurs de requête ici
+        print('Erreur de requête API: ${response.statusCode}');
+        return 'assets/img/user_default_icon.jpg'; // Retournez le lien par défaut en cas d'erreur
+      }
+    } catch (e) {
+      // Gérez les erreurs d'exception ici
+      print('Erreur lors de la requête API: $e');
+      return 'assets/img/user_default_icon.jpg'; // Retournez le lien par défaut en cas d'erreur
+    }
   }
 
   @override
