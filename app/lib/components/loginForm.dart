@@ -73,7 +73,7 @@ class _LoginFormState extends State<LoginForm> {
             obscureText: true,
             decoration: const InputDecoration(labelText: 'Mot de passe'),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 40),
           ElevatedButton(
             onPressed: () async {
               if (emailController.text.isEmpty || passwordController.text.isEmpty) {
@@ -102,22 +102,6 @@ class _LoginFormState extends State<LoginForm> {
             style: TextStyle(color: Colors.red),
           )
               : Container(),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('Pas encore de compte ?'),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => RegistrationScreen()),
-                  );
-                },
-                child: const Text('Inscrivez-vous !'),
-              ),
-            ],
-          ),
         ],
       ),
     );

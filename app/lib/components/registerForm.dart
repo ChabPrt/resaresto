@@ -94,7 +94,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
             decoration: InputDecoration(
                 labelText: 'Vérification du mot de passe'),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 40),
           ElevatedButton(
             onPressed: () {
               User newUser = User(
@@ -106,6 +106,14 @@ class _RegistrationFormState extends State<RegistrationForm> {
               );
               saveUser(newUser);
             },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppConfig.principalColor,
+              foregroundColor: AppConfig.fontWhiteColor,
+              padding: const EdgeInsetsDirectional.symmetric(horizontal: 50.0, vertical: 25.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+            ),
             child: Text('Valider'),
           ),
         ],
