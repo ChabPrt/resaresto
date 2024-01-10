@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
+import '../config/app_config.dart';
 import './reviewCard.dart';
 
 import '../models/reviewModel.dart';
@@ -43,48 +44,45 @@ class ReviewsHome extends StatelessWidget {
 
 class ReviewsHomeWrapper extends StatelessWidget {
   Future<List<ReviewCard>> fetchReviews() async {
-    // Load JSON files for restaurants, reviews, and users
+    try {
+      final reviewsUrl = Uri.parse('${AppConfig.apiBaseUrl}/Avis');
+      final reviewsResponse = await http.get(reviewsUrl);
 
-      String jsonString = await rootBundle.loadString('../data/reviews.json');
-      List<dynamic> jsonList = json.decode(jsonString)['reviews'];
+      if (reviewsResponse.statusCode == 200) {
+        final List<dynamic> reviewsJsonList = json.decode(reviewsResponse.body);
 
-      List<dynamic> randomReviews = [...jsonList];
-      randomReviews.shuffle();
-      randomReviews = randomReviews.take(3).toList();
+        // Shuffle the reviews and take three random reviews
+        reviewsJsonList.shuffle();
+        final List<dynamic> randomReviews = reviewsJsonList.take(3).toList();
 
-      String restaurantsJsonString = await rootBundle.loadString('../data/restaurants.json');
-      List<dynamic> restaurantsJsonList = json.decode(restaurantsJsonString)['restaurants'];
+        List<ReviewCard> reviewCards = await Future.wait(randomReviews.map((jsonReview) async {
+          final restaurantUrl = Uri.parse('${AppConfig.apiBaseUrl}/Restaurants/${jsonReview['idRestaurant']}');
+          final userUrl = Uri.parse('${AppConfig.apiBaseUrl}/Utilisateurs/${jsonReview['idUser']}');
 
-      String usersJsonString = await rootBundle.loadString('../data/users.json');
-      List<dynamic> usersJsonList = json.decode(usersJsonString)['Users'];
+          final restaurantResponse = await http.get(restaurantUrl);
+          final userResponse = await http.get(userUrl);
 
-      List<ReviewCard> reviewCards = randomReviews.map((jsonReview) {
-        // Find the corresponding restaurant using the restaurant ID
-        Map<String, dynamic> restaurantJson = restaurantsJsonList
-            .firstWhere((restaurant) => restaurant['id'] == jsonReview['restaurant_id']);
-        Restaurant restaurant = Restaurant.fromJson(restaurantJson);
+          if (restaurantResponse.statusCode == 200 && userResponse.statusCode == 200) {
+            final Map<String, dynamic> restaurantJson = json.decode(restaurantResponse.body);
+            final Map<String, dynamic> userJson = json.decode(userResponse.body);
 
-        // Find the corresponding user using the user ID
-        Map<String, dynamic> userJson = usersJsonList
-            .firstWhere((user) => user['id'] == jsonReview['user_id']);
-        User user = User.fromJson(userJson);
+            return ReviewCard(
+              review: Review.fromJson(jsonReview),
+              restaurantName: restaurantJson["nom"],
+              userName: userJson["nom"] + " " + userJson["prenom"],
+            );
+          } else {
+            throw Exception('Failed to load data from the API');
+          }
+        }).toList());
 
-        return ReviewCard(
-          review: Review(
-            id: jsonReview['id'],
-            restaurantId: jsonReview['restaurant_id'],
-            userId: jsonReview['user_id'],
-            rating: jsonReview['rating'].toDouble(),
-            comment: jsonReview['comment'],
-            images: jsonReview['images'] != null ? List<String>.from(jsonReview['images']) : null,
-          ),
-          restaurantName: restaurant.name,
-          userName: user.nom + " " + user.prenom,
-        );
-      }).toList();
-
-      return reviewCards;
-
+        return reviewCards;
+      } else {
+        throw Exception('Failed to load data from the API');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
   }
 
   @override

@@ -65,7 +65,7 @@ class ReviewCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '" ${review.comment} "',
+                        '" ${review.commantaire} "',
                         style: TextStyle(fontSize: 25.0),
                       ),
                       SizedBox(height: 5.0),
@@ -78,7 +78,7 @@ class ReviewCard extends StatelessWidget {
                         children: List.generate(
                           5,
                               (index) {
-                            if (index < review.rating.round()) {
+                            if (index < review.note.round()) {
                               return Icon(
                                 Icons.star,
                                 color: Colors.orange,
