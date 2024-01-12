@@ -217,15 +217,20 @@ class _GroupFormState extends State<GroupForm> {
           headers: {'Content-Type': 'application/json'},
           body: jsonString,
         );
-        // Rejoindre le groupe a réussi, vous pouvez traiter la réponse si nécessaire
-        print('Vous avez rejoint le groupe avec succès!');
+
+        if (responseLink.statusCode == 201) {
+          print('Utilisateur lié au groupe !');
+        }else {
+          // La création du groupe a échoué, vous pouvez traiter la réponse d'erreur si nécessaire
+          print('Erreur lors de la liasion de l\'utilisateur au du groupe: ${responseLink.statusCode}');
+        }
       } else {
         // Rejoindre le groupe a échoué, vous pouvez traiter la réponse d'erreur si nécessaire
-        print('Erreur lors de la rejoindre du groupe: ${response.statusCode}');
+        print('Groupe introuvable pour le code: ${response.statusCode}');
       }
     } catch (e) {
       // Gestion des erreurs lors de la requête
-      print('Erreur lors de la rejoindre du groupe: $e');
+      print('Erreur de recupperation du groupe: $e');
     }
   }
 }
