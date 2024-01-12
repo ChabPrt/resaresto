@@ -18,7 +18,7 @@ class AppConfig {
 
   // Couleurs de l'application
   static const Color principalColor = Color(0xff527853);
-  static const Color primaryColor = Color(0xfff7b787);
+  static const Color primaryColor = Color(0xffefdacb);
   static const Color secondaryColor = Color(0xffee7214);
   static const Color backgroundColor = Color(0xf5f5f5f5);
 
