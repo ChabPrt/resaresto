@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:app/config/app_config.dart';
+import 'package:app/views/profileView.dart';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
@@ -77,7 +78,10 @@ class _GroupFormState extends State<GroupForm> {
                               libelle: _labelController.text
                             );
                             createGroup(newGroup, widget.idUser);
-                            Navigator.of(context).pop();
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => ProfileView()),
+                            );
 
                           },
                           style: ElevatedButton.styleFrom(
@@ -122,7 +126,10 @@ class _GroupFormState extends State<GroupForm> {
                           onPressed: () {
                             String code = _codeController.text;
                             joinGroup(code, widget.idUser);
-                            Navigator.of(context).pop();
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => ProfileView()),
+                            );
 
                           },
                           style: ElevatedButton.styleFrom(
@@ -192,12 +199,24 @@ class _GroupFormState extends State<GroupForm> {
 
   Future<void> joinGroup(String code, int idUser) async {
     try {
-      final response = await http.post(
-        Uri.parse('URL_DE_VOTRE_API_POUR_REJOINDRE_LE_GROUPE'),
-        body: {'code': code},
-      );
+
+      final String apiUrl = '${AppConfig.apiBaseUrl}/Groupes/$code';
+      final response = await http.get(Uri.parse(apiUrl));
 
       if (response.statusCode == 200) {
+        Map<String, dynamic> jsonData = json.decode(response.body);
+        var idGroup = jsonData['id'];
+
+        GroupUsers groupUsers = GroupUsers(idUser: idUser, idGroup: idGroup);
+
+        jsonData = groupUsers.toJson();
+        final jsonString = jsonEncode(jsonData);
+
+        final responseLink = await http.post(
+          Uri.parse('${AppConfig.apiBaseUrl}/GroupeUtilisateurs'),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonString,
+        );
         // Rejoindre le groupe a réussi, vous pouvez traiter la réponse si nécessaire
         print('Vous avez rejoint le groupe avec succès!');
       } else {
