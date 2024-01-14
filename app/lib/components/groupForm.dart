@@ -24,17 +24,22 @@ class _GroupFormState extends State<GroupForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.all(10),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
-      ),
-      child: Center(
-        child: IconButton(
-          icon: Icon(Icons.add),
-          onPressed: () {
-            _showGroupDialog(context);
-          },
+    return GestureDetector(
+      onTap: () {
+        _showGroupDialog(context);
+      },
+      child: Card(
+        margin: EdgeInsets.all(10),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        child: Center(
+          child: IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
+              _showGroupDialog(context);
+            },
+          ),
         ),
       ),
     );

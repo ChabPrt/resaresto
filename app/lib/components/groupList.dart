@@ -7,7 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../config/app_config.dart';
 
 import '../views/connexionView.dart';
-import '../models/groupModel.dart';
 import '../components/groupCard.dart';
 
 class GroupList extends StatelessWidget {
@@ -27,13 +26,11 @@ class GroupList extends StatelessWidget {
             crossAxisSpacing: 8.0,
             mainAxisSpacing: 8.0,
           ),
-          itemCount: groupCards.length + 1, // +1 for the GroupForm
+          itemCount: groupCards.length + 1,
           itemBuilder: (BuildContext context, int index) {
             if (index == groupCards.length) {
-              // This is where the GroupForm will be displayed
               return groupForm;
             } else {
-              // Display the GroupCard
               return groupCards[index];
             }
           },
@@ -87,6 +84,7 @@ class GroupListCards extends StatelessWidget {
             });
 
             return GroupCard(
+              idGroup: jsonGroupUser["id"],
               title: jsonGroupUser["libelle"],
               code: jsonGroupUser["code"],
               users: usersNames,

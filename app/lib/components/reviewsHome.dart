@@ -6,8 +6,6 @@ import '../config/app_config.dart';
 import './reviewCard.dart';
 
 import '../models/reviewModel.dart';
-import '../models/restaurantModel.dart';
-import '../models/userModel.dart';
 
 class ReviewsHome extends StatelessWidget {
   final List<ReviewCard> reviewCards;
