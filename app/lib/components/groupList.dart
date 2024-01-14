@@ -62,7 +62,7 @@ class GroupListCards extends StatelessWidget {
         Map<String, dynamic> userData = json.decode(userResponse.body);
         idUser = userData['id'];
 
-        final groupListApiUrl = Uri.parse('${AppConfig.apiBaseUrl}/Groupes/Recuperer/$idUser');
+        final groupListApiUrl = Uri.parse('${AppConfig.apiBaseUrl}/Groupes/RecupererUsers/$idUser');
         final groupListResponse = await http.get(groupListApiUrl);
 
         if (groupListResponse.statusCode == 200) {

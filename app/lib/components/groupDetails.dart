@@ -1,3 +1,4 @@
+import 'package:app/components/wishList.dart';
 import 'package:flutter/material.dart';
 import '../config/app_config.dart';
 
@@ -30,7 +31,7 @@ class GroupDetails extends StatelessWidget {
             Expanded(
               child: Container(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     SizedBox(height: 15.0),
                     Text(
@@ -50,6 +51,7 @@ class GroupDetails extends StatelessWidget {
                     ),
                     SizedBox(height: 50.0),
                     Text("Les propositions du groupe : "),
+                    WishList(idGroup: idGroup)
                   ],
                 ),
               ),

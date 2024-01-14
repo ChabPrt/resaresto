@@ -1,8 +1,10 @@
+import 'package:app/models/wishModel.dart';
+
 class Group {
   final int? id;
   final String libelle;
   final String? code;
-  final List<String>? propositions;
+  final List<Wish>? propositions;
   final List<String>? utilisateurs;
 
   Group({
@@ -17,19 +19,18 @@ class Group {
     return {
       'code': code,
       'libelle': libelle,
-      'propositions': propositions,
+      'propositions': propositions?.map((wish) => wish.toJson()).toList(),
       'utilisateurs': utilisateurs,
     };
   }
 
   static Group fromJson(Map<String, dynamic> json) {
-    return Group (
+    return Group(
       id: json['id'],
       libelle: json['libelle'],
       code: json['code'],
-      propositions: List<String>.from(json['propositions']),
+      propositions: List<Wish>.from((json['propositions'] ?? []).map((prop) => Wish.fromJson(prop))),
       utilisateurs: List<String>.from(json['utilisateurs']),
     );
   }
 }
-

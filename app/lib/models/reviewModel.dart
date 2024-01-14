@@ -1,4 +1,3 @@
-// review.dart
 class Review {
   final int? id;
   final int idRestaurant;
