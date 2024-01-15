@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app/config/app_config.dart';
+import 'package:intl/intl.dart';
 
 class SearchResto extends StatelessWidget {
   @override
@@ -17,8 +18,8 @@ class RestaurantForm extends StatefulWidget {
 
 class _RestaurantFormState extends State<RestaurantForm> {
   final TextEditingController _locationController = TextEditingController();
-  final TextEditingController _restaurantNameController =
-  TextEditingController();
+  final TextEditingController _restaurantNameController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -145,6 +146,52 @@ class _RestaurantFormState extends State<RestaurantForm> {
                       ),
                     ),
                     const SizedBox(width: 10.0),
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: AppConfig.principalColor),
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.calendar_today,
+                              color: AppConfig.principalColor,
+                            ),
+                            const SizedBox(width: 8.0),
+                            Expanded(
+                              child: TextFormField(
+                                controller: _dateController,
+                                decoration: const InputDecoration(
+                                  hintText: "Aujourd'hui, demain, dans une semaine…",
+                                  hintStyle: TextStyle(
+                                      color: AppConfig.fontLightGreyColor,
+                                      fontWeight: FontWeight.normal
+                                  ),
+                                  border: InputBorder.none,
+                                ),
+                                style: const TextStyle(
+                                    color: AppConfig.fontBlackColor,
+                                    fontWeight: FontWeight.w500
+                                ),
+                                onTap: () => _selectDate(context),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                _dateController.clear();
+                              },
+                              icon: const Icon(
+                                Icons.clear,
+                                color: AppConfig.principalColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10.0),
                     ElevatedButton(
                       onPressed: () {
                         // Action à effectuer lors de la validation
@@ -169,5 +216,22 @@ class _RestaurantFormState extends State<RestaurantForm> {
           ),
         )
     );
+  }
+
+  DateTime selectedDate = DateTime.now();
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+        _dateController.text = DateFormat('dd/MM/yyyy').format(selectedDate);
+      });
+    }
   }
 }
