@@ -7,7 +7,7 @@ class Wish {
   final DateTime endingVote;
   final Restaurant restaurant;
   final User utilisateur;
-  final List<int>? usersOk;
+  late final List<int>? usersOk;
 
   Wish({
     this.id,
@@ -21,8 +21,8 @@ class Wish {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'date': date.toIso8601String(),
-      'endingVote': endingVote.toIso8601String(),
+      'date': date.toIso8601String().split('T')[0],
+      'endingVote': endingVote.toIso8601String().split('T')[0],
       'restaurant': restaurant.toJson(),
       'utilisateur': utilisateur.toJson(),
       'usersOk': usersOk,

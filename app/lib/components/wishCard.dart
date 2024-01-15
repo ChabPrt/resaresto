@@ -2,12 +2,9 @@ import 'dart:convert';
 
 import 'package:app/config/app_config.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import '../models/wishModel.dart';
 
 import 'package:http/http.dart' as http;
-
-import 'package:flutter/material.dart';
 
 class WishCard extends StatelessWidget {
   final Wish wish;

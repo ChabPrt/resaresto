@@ -1,4 +1,7 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../config/app_config.dart';
 import 'dart:convert';
 
@@ -9,8 +12,30 @@ import '../components/wishDetails.dart';
 
 class WishList extends StatelessWidget {
   final int idGroup;
+  late int idConnectedUser;
 
   WishList({required this.idGroup});
+
+  Future<void> initUserData() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String userEmail = prefs.getString('user') ?? '';
+
+      final String apiUrl = '${AppConfig.apiBaseUrl}/Utilisateurs/Recuperer/$userEmail';
+      final response = await http.get(Uri.parse(apiUrl));
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> jsonData = json.decode(response.body);
+
+        idConnectedUser = jsonData?['id'] ?? 0;
+      } else {
+        print('Erreur de requête API: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Erreur lors de la requête API: $e');
+    }
+  }
+
 
   Future<List<Wish>> fetchProposalsByGroupId(int groupId) async {
     try {
@@ -71,29 +96,36 @@ class WishList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: fetchProposalsByGroupId(idGroup),
-      builder: (context, proposalSnapshot) {
-        if (proposalSnapshot.connectionState == ConnectionState.waiting) {
+      future: initUserData(),
+      builder: (context, initSnapshot) {
+        if (initSnapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
-        } else if (proposalSnapshot.hasError) {
-          return Center(child: Text('Error loading proposal data: ${proposalSnapshot.error}'));
+        } else if (initSnapshot.hasError) {
+          return Center(child: Text('Error initializing user data: ${initSnapshot.error}'));
         } else {
-          List<Wish> proposals = proposalSnapshot.data as List<Wish>;
-
-          // Group proposals by date
-          Map<String, List<Wish>> groupedProposals = groupProposalsByDate(proposals);
-
-          return Container( // Wrap with a Container
-            height: 500.0, // Set a specific height or adjust as needed
-            child: ListView.builder(
-              itemCount: groupedProposals.length,
-              itemBuilder: (context, index) {
-                String date = groupedProposals.keys.elementAt(index);
-                List<Wish> proposalsForDate = groupedProposals[date]!;
-
-                return WishDetail(date: date, propositions: proposalsForDate);
-              },
-            ),
+          return FutureBuilder(
+            future: fetchProposalsByGroupId(idGroup),
+            builder: (context, proposalSnapshot) {
+              if (proposalSnapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else if (proposalSnapshot.hasError) {
+                return Center(child: Text('Error loading proposal data: ${proposalSnapshot.error}'));
+              } else {
+                List<Wish> proposals = proposalSnapshot.data as List<Wish>;
+                Map<String, List<Wish>> groupedProposals = groupProposalsByDate(proposals);
+                return Container(
+                  height: 500.0,
+                  child: ListView.builder(
+                    itemCount: groupedProposals.length,
+                    itemBuilder: (context, index) {
+                      String date = groupedProposals.keys.elementAt(index);
+                      List<Wish> proposalsForDate = groupedProposals[date]!;
+                      return WishDetail(date: date, propositions: proposalsForDate, connectedUserId: idConnectedUser);
+                    },
+                  ),
+                );
+              }
+            },
           );
         }
       },
