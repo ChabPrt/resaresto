@@ -47,7 +47,7 @@ class RestaurantList extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "Oups ! Aucun restaurant a été trouvé à cette adresse. Merci de contacter votre administrateur.",
+                    "Oups ! Aucun restaurant n'a été trouvé avec cette adresse. Merci de contacter votre administrateur.",
                     style: TextStyle(fontSize: 16.0),
                     textAlign: TextAlign.center,
                   ),
