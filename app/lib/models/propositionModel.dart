@@ -1,4 +1,4 @@
-class Wish {
+class Proposition {
   final int id;
   final DateTime date;
   final DateTime endingVote;
@@ -6,7 +6,7 @@ class Wish {
   final int utilisateurId;
   late final List<int>? usersOk;
 
-  Wish({
+  Proposition({
     required this.id,
     required this.date,
     required this.endingVote,
@@ -26,8 +26,8 @@ class Wish {
     };
   }
 
-  static Wish fromJson(Map<String, dynamic> json) {
-    return Wish(
+  static Proposition fromJson(Map<String, dynamic> json) {
+    return Proposition(
       id: json['id'],
       date: DateTime.parse(json['date']),
       endingVote: DateTime.parse(json['endingVote']),

@@ -1,3 +1,5 @@
+import 'package:app/components/wishForm.dart';
+import 'package:app/config/app_config.dart';
 import 'package:flutter/material.dart';
 import '../models/restaurantModel.dart';
 import '../components/reviewsRestaurant.dart';
@@ -5,9 +7,10 @@ import '../models/reviewModel.dart';
 
 class RestaurantCard extends StatelessWidget {
   final Restaurant restaurant;
+  final String date;
   late Review rewiew;
 
-  RestaurantCard({required this.restaurant});
+  RestaurantCard({required this.restaurant, required this.date});
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +27,7 @@ class RestaurantCard extends StatelessWidget {
             children: [
               Container(
                 width: MediaQuery.of(context).size.width / 3,
+                padding: const EdgeInsets.all(15.0),
                 child: Carousel(images: restaurant.image ?? []),
               ),
               Expanded(
@@ -84,6 +88,32 @@ class RestaurantCard extends StatelessWidget {
                 ),
               ),
               ReviewsRestaurantWrapper(idRestaurant: restaurant.id ?? 0),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  children: [
+                    Text(
+                      "Faire une proposition de réservation ",
+                      style: TextStyle(
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    FloatingActionButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return WishForm(restaurant: restaurant, date: date);
+                          },
+                        );
+                      },
+                      child: Icon(Icons.add),
+                      backgroundColor: AppConfig.primaryColor,
+                    ),
+                  ],
+                )
+              ),
             ],
           ),
         ],

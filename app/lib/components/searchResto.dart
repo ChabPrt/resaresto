@@ -200,16 +200,19 @@ class _RestaurantFormState extends State<RestaurantForm> {
                   ),
                   const SizedBox(width: 10.0),
                   ElevatedButton(
-                    onPressed: isFormValid
+                    onPressed: isFormValid && isDateValid(_dateController.text)
                         ? () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => BookingView(
-                            address: _locationController.text, date: _dateController.text,
-                        )),
+                        MaterialPageRoute(
+                          builder: (context) => BookingView(
+                            address: _locationController.text,
+                            date: _dateController.text,
+                          ),
+                        ),
                       );
                     }
-                        : null, // Désactiver le bouton si le formulaire n'est pas valide
+                        : null, // Désactiver le bouton si le formulaire n'est pas valide ou si la date n'est pas valide
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppConfig.principalColor,
                       foregroundColor: AppConfig.fontWhiteColor,
@@ -234,7 +237,7 @@ class _RestaurantFormState extends State<RestaurantForm> {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
-      firstDate: DateTime(2000),
+      firstDate: DateTime.now(),
       lastDate: DateTime(2101),
     );
 
@@ -244,5 +247,10 @@ class _RestaurantFormState extends State<RestaurantForm> {
         _dateController.text = DateFormat('dd/MM/yyyy').format(selectedDate);
       });
     }
+  }
+
+  bool isDateValid(String date) {
+    final RegExp dateRegExp = RegExp(r'^\d{2}/\d{2}/\d{4}$');
+    return dateRegExp.hasMatch(date);
   }
 }

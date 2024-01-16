@@ -1,9 +1,7 @@
 import 'dart:convert';
-
-import 'package:app/config/app_config.dart';
 import 'package:flutter/material.dart';
+import 'package:app/config/app_config.dart';
 import '../models/wishModel.dart';
-
 import 'package:http/http.dart' as http;
 
 class WishCard extends StatelessWidget {
@@ -21,32 +19,47 @@ class WishCard extends StatelessWidget {
       color: AppConfig.primaryColor,
       child: Padding(
         padding: EdgeInsets.all(16),
-        child: Row(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-             children: [
-               Text('Créé par : ${wish.utilisateur.nom} ${wish.utilisateur.prenom}'),
-               Text('Lieu : ${wish.restaurant.nom}'),
-               FutureBuilder<List<String>>(
-                 future: getUserOk(wish.usersOk),
-                 builder: (context, snapshot) {
-                   if (snapshot.connectionState == ConnectionState.waiting) {
-                     return CircularProgressIndicator();
-                   } else if (snapshot.hasError) {
-                     return Text('Error loading user data: ${snapshot.error}');
-                   } else {
-                     List<String> userNames = snapshot.data ?? [];
-                     if(userNames.length == 0){
-                       return Text('Personnes intéressées : Personne...');
-                     }else{
-                       return Text('Personnes intéressées : ${userNames.join(', ')}');
-                     }
-
-                   }
-                 },
-               ),
-             ],
+            FutureBuilder<String>(
+              future: loadUserName(wish.utilisateurId),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error loading user data: ${snapshot.error}');
+                } else {
+                  return Text('Créé par : ${snapshot.data}');
+                }
+              },
+            ),
+            FutureBuilder<String>(
+              future: loadRestaurantName(wish.restaurantId),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error loading restaurant data: ${snapshot.error}');
+                } else {
+                  return Text('Lieu : ${snapshot.data}');
+                }
+              },
+            ),
+            FutureBuilder<List<String>>(
+              future: loadUserNames(wish.usersOk),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error loading user data: ${snapshot.error}');
+                } else {
+                  List<String> userNames = snapshot.data ?? [];
+                  return Text(
+                    'Personnes intéressées : ${userNames.isEmpty ? "Personne..." : userNames.join(', ')}',
+                  );
+                }
+              },
             ),
           ],
         ),
@@ -54,21 +67,39 @@ class WishCard extends StatelessWidget {
     );
   }
 
-  Future<List<String>> getUserOk(List<int>? usersOk) async {
-    List<String> usersNames = [];
+  Future<List<String>> loadUserNames(List<int>? usersOk) async {
+    List<String> userNames = [];
 
-    await Future.forEach(usersOk as List<int>, (int userId) async {
-      final userApiUrl = Uri.parse('${AppConfig.apiBaseUrl}/Utilisateurs/$userId');
-      final userResponse = await http.get(userApiUrl);
-
-      if (userResponse.statusCode == 200) {
-        Map<String, dynamic> userJson = json.decode(userResponse.body);
-        usersNames.add('${userJson['nom']} ${userJson['prenom']}');
-      } else {
-        throw Exception('Failed to load user data from the API');
+    if (usersOk != null) {
+      for (int userId in usersOk) {
+        userNames.add(await loadUserName(userId));
       }
-    });
+    }
 
-    return usersNames;
+    return userNames;
+  }
+
+  Future<String> loadUserName(int userId) async {
+    final userApiUrl = Uri.parse('${AppConfig.apiBaseUrl}/Utilisateurs/$userId');
+    final userResponse = await http.get(userApiUrl);
+
+    if (userResponse.statusCode == 200) {
+      Map<String, dynamic> userJson = json.decode(userResponse.body);
+      return '${userJson['nom']} ${userJson['prenom']}';
+    } else {
+      throw Exception('Failed to load user data from the API');
+    }
+  }
+
+  Future<String> loadRestaurantName(int restaurantId) async {
+    final restaurantApiUrl = Uri.parse('${AppConfig.apiBaseUrl}/Restaurants/$restaurantId');
+    final restaurantResponse = await http.get(restaurantApiUrl);
+
+    if (restaurantResponse.statusCode == 200) {
+      Map<String, dynamic> restaurantJson = json.decode(restaurantResponse.body);
+      return restaurantJson['nom'];
+    } else {
+      throw Exception('Failed to load restaurant data from the API');
+    }
   }
 }

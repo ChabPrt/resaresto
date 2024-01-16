@@ -8,8 +8,9 @@ import 'package:app/views/homeView.dart';
 
 class RestaurantList extends StatelessWidget {
   final String address;
+  final String date;
 
-  RestaurantList({required this.address});
+  RestaurantList({required this.address, required this.date});
 
   Future<List<Restaurant>> fetchRestaurantByAddress(String address) async {
     try {
@@ -75,7 +76,7 @@ class RestaurantList extends StatelessWidget {
               itemCount: restaurants.length,
               itemBuilder: (context, index) {
                 Restaurant restaurant = restaurants[index];
-                return RestaurantCard(restaurant: restaurant);
+                return RestaurantCard(restaurant: restaurant, date: date);
               },
             ),
           );

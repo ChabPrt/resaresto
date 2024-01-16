@@ -47,7 +47,7 @@ class BookingView extends StatelessWidget {
           ),
           const SizedBox(height: 20.0),
           Expanded(
-            child: RestaurantList(address: address),
+            child: RestaurantList(address: address, date: date),
           ),
         ],
       ),

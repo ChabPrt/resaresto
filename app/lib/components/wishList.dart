@@ -1,10 +1,9 @@
-import 'dart:js';
-
+import 'package:app/views/homeView.dart';
+import 'package:app/views/loginView.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../config/app_config.dart';
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 
 import '../models/wishModel.dart';
@@ -36,15 +35,14 @@ class WishList extends StatelessWidget {
     }
   }
 
-
   Future<List<Wish>> fetchProposalsByGroupId(int groupId) async {
     try {
-      final response = await http.get(Uri.parse('${AppConfig.apiBaseUrl}/Groupes/RecupererPropositions/$groupId'));
+      final response =
+      await http.get(Uri.parse('${AppConfig.apiBaseUrl}/Groupes/RecupererPropositions/$groupId'));
 
       if (response.statusCode == 200) {
         List<dynamic> data = json.decode(response.body);
 
-        // Assurez-vous que vos propositions sont chargées correctement depuis leur route respective
         return await fetchWishesByIds(data[0]['propositions'].cast<int>());
       } else {
         throw Exception('Failed to load proposals. Status code: ${response.statusCode}');
@@ -83,10 +81,7 @@ class WishList extends StatelessWidget {
     for (Wish proposal in proposals) {
       String date = proposal.date.toLocal().toString().split(' ')[0]; // Format de date, ajustez selon vos besoins
 
-      if (!groupedProposals.containsKey(date)) {
-        groupedProposals[date] = [];
-      }
-
+      groupedProposals.putIfAbsent(date, () => []);
       groupedProposals[date]!.add(proposal);
     }
 
@@ -109,7 +104,32 @@ class WishList extends StatelessWidget {
               if (proposalSnapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
               } else if (proposalSnapshot.hasError) {
-                return Center(child: Text('Error loading proposal data: ${proposalSnapshot.error}'));
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Aïe ! Aucune proposition n'a été faite pour ce groupe ...",
+                        style: TextStyle(fontSize: 16.0),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 10.0),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => HomeView()),
+                          );
+                        },
+                        child: Text(
+                          "Revenir au menu principal",
+                          style: TextStyle(fontSize: 16.0, color: Colors.blue),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
               } else {
                 List<Wish> proposals = proposalSnapshot.data as List<Wish>;
                 Map<String, List<Wish>> groupedProposals = groupProposalsByDate(proposals);

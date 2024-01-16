@@ -98,10 +98,12 @@ class _RegistrationFormState extends State<RegistrationForm> {
           ElevatedButton(
             onPressed: () {
               User newUser = User(
+                id: 0,
                 nom: lastNameController.text,
                 prenom: firstNameController.text,
                 mail: emailController.text,
                 pass: passwordController.text,
+                levelAcces: 0,
                 image: profileImageController.text,
               );
               saveUser(newUser);
