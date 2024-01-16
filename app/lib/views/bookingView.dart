@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../components/groupList.dart';
+import '../components/restaurantList.dart';
 import '../components/header.dart';
 import '../views/homeView.dart';
 import '../views/loginView.dart';
-import '../components/userProfile.dart';
 
-class ProfileView extends StatelessWidget {
+class BookingView extends StatelessWidget {
+  final String address;
+  final String date;
+
+  BookingView({required this.address, required this.date});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,  // Aligner les éléments à gauche
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Header(
             onProfilePressed: () {
@@ -24,7 +28,6 @@ class ProfileView extends StatelessWidget {
               SharedPreferences prefs = await SharedPreferences.getInstance();
               prefs.remove('user');
 
-              // Rediriger vers la page de connexion
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => LoginView()),
@@ -32,12 +35,10 @@ class ProfileView extends StatelessWidget {
             },
           ),
           const SizedBox(height: 35.0),
-          UserProfileScreen(),
-          const SizedBox(height: 80.0),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: const Text(
-              "Vos groupes : ",
+            child: Text(
+              "Les restaurants de $address",
               style: TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
@@ -46,7 +47,7 @@ class ProfileView extends StatelessWidget {
           ),
           const SizedBox(height: 20.0),
           Expanded(
-            child: GroupListCards(),
+            child: RestaurantList(address: address),
           ),
         ],
       ),

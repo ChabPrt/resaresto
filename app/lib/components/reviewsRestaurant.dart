@@ -3,17 +3,29 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:http/http.dart' as http;
 import '../config/app_config.dart';
-import './reviewHomeCard.dart';
-
 import '../models/reviewModel.dart';
+import '../components/reviewRestaurantCard.dart';
 
-class ReviewsHome extends StatelessWidget {
-  final List<ReviewHomeCard> reviewHomeCards;
+class ReviewsRestaurant extends StatelessWidget {
+  final List<ReviewRestaurantCard> reviewRestaurantCards;
 
-  ReviewsHome({required this.reviewHomeCards});
+  ReviewsRestaurant({required this.reviewRestaurantCards});
 
   @override
   Widget build(BuildContext context) {
+    if (reviewRestaurantCards.isEmpty) {
+      return Center(
+        child: Text(
+          "Aucun avis sur ce restaurant pour le moment...",
+          style: TextStyle(fontSize: 16.0),
+        ),
+      );
+    }
+
+    if (reviewRestaurantCards.length == 1) {
+      return reviewRestaurantCards.first;
+    }
+
     return CarouselSlider(
       options: CarouselOptions(
         height: 350.0,
@@ -25,13 +37,13 @@ class ReviewsHome extends StatelessWidget {
         enlargeCenterPage: true,
         scrollDirection: Axis.horizontal,
       ),
-      items: reviewHomeCards.map((reviewCard) {
+      items: reviewRestaurantCards.map((reviewRestaurantCard) {
         return Builder(
           builder: (BuildContext context) {
             return Container(
               width: MediaQuery.of(context).size.width,
               margin: const EdgeInsets.symmetric(horizontal: 5.0),
-              child: reviewCard,
+              child: reviewRestaurantCard,
             );
           },
         );
@@ -40,43 +52,39 @@ class ReviewsHome extends StatelessWidget {
   }
 }
 
-class ReviewsHomeWrapper extends StatelessWidget {
-  Future<List<ReviewHomeCard>> fetchReviews() async {
+class ReviewsRestaurantWrapper extends StatelessWidget {
+  final int idRestaurant;
+
+  ReviewsRestaurantWrapper({required this.idRestaurant});
+
+  Future<List<ReviewRestaurantCard>> fetchReviews() async {
     try {
-      final reviewsUrl = Uri.parse('${AppConfig.apiBaseUrl}/Avis');
-      final reviewsResponse = await http.get(reviewsUrl);
+      final restaurantUrl =
+      Uri.parse('${AppConfig.apiBaseUrl}/Restaurants/RecupererAvis/$idRestaurant');
+      final reviewsResponse = await http.get(restaurantUrl);
 
       if (reviewsResponse.statusCode == 200) {
-        final List<dynamic> reviewsJsonList = json.decode(reviewsResponse.body);
-
-        // Shuffle the reviews and take three random reviews
-        reviewsJsonList.shuffle();
-        final List<dynamic> randomReviews = reviewsJsonList.take(3).toList();
-
-        List<ReviewHomeCard> reviewHomeCards = await Future.wait(randomReviews.map((jsonReview) async {
-          final restaurantUrl = Uri.parse('${AppConfig.apiBaseUrl}/Restaurants/${jsonReview['idRestaurant']}');
+        final List<dynamic> jsonReviews = json.decode(reviewsResponse.body);
+        List<ReviewRestaurantCard> reviewRestaurantCards =
+        await Future.wait(jsonReviews.map((jsonReview) async {
           final userUrl = Uri.parse('${AppConfig.apiBaseUrl}/Utilisateurs/${jsonReview['idUser']}');
-
-          final restaurantResponse = await http.get(restaurantUrl);
           final userResponse = await http.get(userUrl);
 
-          if (restaurantResponse.statusCode == 200 && userResponse.statusCode == 200) {
-            final Map<String, dynamic> restaurantJson = json.decode(restaurantResponse.body);
+          if (userResponse.statusCode == 200) {
             final Map<String, dynamic> userJson = json.decode(userResponse.body);
 
-            return ReviewHomeCard(
+            return ReviewRestaurantCard(
               review: Review.fromJson(jsonReview),
-              restaurantName: restaurantJson["nom"],
-              userName: userJson["nom"] + " " + userJson["prenom"],
+              userName: '${userJson["nom"]} ${userJson["prenom"]}',
             );
           } else {
-            throw Exception('Failed to load data from the API');
+            throw Exception('Failed to load user data from the API');
           }
         }).toList());
 
-        return reviewHomeCards;
+        return reviewRestaurantCards;
       } else {
-        throw Exception('Failed to load data from the API');
+        throw Exception('Failed to load reviews from the API');
       }
     } catch (e) {
       throw Exception('Error: $e');
@@ -93,8 +101,8 @@ class ReviewsHomeWrapper extends StatelessWidget {
         } else if (snapshot.hasError) {
           return const Text('Error loading data');
         } else {
-          List<ReviewHomeCard> reviews = snapshot.data as List<ReviewHomeCard>;
-          return ReviewsHome(reviewHomeCards: reviews);
+          List<ReviewRestaurantCard> reviews = snapshot.data as List<ReviewRestaurantCard>;
+          return ReviewsRestaurant(reviewRestaurantCards: reviews);
         }
       },
     );

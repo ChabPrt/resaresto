@@ -5,7 +5,7 @@ import 'dart:convert';
 
 import '../config/app_config.dart';
 import 'package:app/components/userProfileForm.dart';
-import 'package:app/views/connexionView.dart';
+import 'package:app/views/loginView.dart';
 
 import '../models/userModel.dart';
 

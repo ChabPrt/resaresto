@@ -1,6 +1,6 @@
 import 'package:app/config/app_config.dart';
 import 'package:flutter/material.dart';
-import 'views/connexionView.dart';
+import 'views/loginView.dart';
 
 void main() {
   runApp(MyApp());

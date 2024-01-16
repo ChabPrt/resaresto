@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../components/header.dart';
 import '../components/searchResto.dart';
 import '../components/reviewsHome.dart';
-import 'package:app/views/connexionView.dart';
+import 'package:app/views/loginView.dart';
 
 class HomeView extends StatelessWidget {
   @override

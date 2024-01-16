@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import '../config/app_config.dart';
-import 'package:app/views/connexionView.dart';
+import 'package:app/views/loginView.dart';
 
 class Header extends StatefulWidget {
   final VoidCallback onProfilePressed;

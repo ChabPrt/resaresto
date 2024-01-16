@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../config/app_config.dart';
 
-import '../views/connexionView.dart';
+import '../views/loginView.dart';
 import '../components/groupCard.dart';
 
 class GroupList extends StatelessWidget {
