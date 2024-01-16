@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import '../config/app_config.dart';
 import '../models/restaurantModel.dart';
 import '../components/restaurantCard.dart';
+import 'package:app/views/homeView.dart';
 
 class RestaurantList extends StatelessWidget {
   final String address;
@@ -12,7 +13,8 @@ class RestaurantList extends StatelessWidget {
 
   Future<List<Restaurant>> fetchRestaurantByAddress(String address) async {
     try {
-      final response = await http.get(Uri.parse('${AppConfig.apiBaseUrl}/Restaurants/Recuperer/$address'));
+      final response =
+      await http.get(Uri.parse('${AppConfig.apiBaseUrl}/Restaurants/Recuperer/$address'));
 
       if (response.statusCode == 200) {
         List<dynamic> data = json.decode(response.body);
@@ -37,6 +39,36 @@ class RestaurantList extends StatelessWidget {
           return Center(child: Text('Error loading restaurant data: ${snapshot.error}'));
         } else {
           List<Restaurant> restaurants = snapshot.data as List<Restaurant>;
+
+          if (restaurants.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Oups ! Aucun restaurant a été trouvé à cette adresse. Merci de contacter votre administrateur.",
+                    style: TextStyle(fontSize: 16.0),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 10.0),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomeView()), // Navigate to HomeView
+                      );
+                    },
+                    child: Text(
+                      "Revenir en arrière",
+                      style: TextStyle(fontSize: 16.0, color: Colors.blue),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+
           return Container(
             height: 500.0,
             child: ListView.builder(
