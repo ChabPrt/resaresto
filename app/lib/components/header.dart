@@ -123,7 +123,7 @@ class _HeaderState extends State<Header> {
                     MaterialPageRoute(builder: (context) => ProfileView()),
                   ),
                   child: CircleAvatar(
-                    backgroundImage: AssetImage(sourceProfilImage),
+                    backgroundImage: _buildImageProvider(),
                   ),
                 ),
                 SizedBox(width: 10.0),
@@ -151,5 +151,15 @@ class _HeaderState extends State<Header> {
         },
       ),
     );
+  }
+
+  ImageProvider<Object> _buildImageProvider() {
+    if (sourceProfilImage.startsWith('http')) {
+      // Si l'URL commence par 'http', utilisez NetworkImage
+      return NetworkImage(sourceProfilImage);
+    } else {
+      // Sinon, utilisez AssetImage
+      return AssetImage(sourceProfilImage);
+    }
   }
 }

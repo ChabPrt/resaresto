@@ -98,9 +98,9 @@ class _UserProfileScreenState extends State<UserProfile> {
                   child: CircleAvatar(
                     radius: 50,
                     backgroundImage: userData.image != ""
-                        ? Image.network(userData.image!).image
-                        : AssetImage('assets/img/user_default_icon.jpg'),
-                  ),
+                        ? NetworkImage(userData.image!)
+                        : AssetImage('assets/img/user_default_icon.jpg') as ImageProvider<Object>,
+                  )
                 ),
                 Expanded(
                   child: Padding(

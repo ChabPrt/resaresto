@@ -1,6 +1,7 @@
 import 'package:app/components/wishForm.dart';
 import 'package:app/config/app_config.dart';
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import '../models/restaurantModel.dart';
 import '../components/reviewsRestaurant.dart';
 import '../models/reviewModel.dart';
@@ -122,7 +123,6 @@ class RestaurantCard extends StatelessWidget {
   }
 }
 
-// Placeholder pour le widget de carrousel (remplacez-le par votre propre implementation de carrousel)
 class Carousel extends StatelessWidget {
   final List<String> images;
 
@@ -131,13 +131,37 @@ class Carousel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.grey[300],
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (images.isNotEmpty)
-          // Afficher le carrousel d'images si des images sont disponibles
-            Placeholder(), // Remplacez ceci par votre implémentation réelle du carrousel
+          if (images.length == 1)
+            Image.network(
+              images[0],
+              fit: BoxFit.cover,
+              width: MediaQuery.of(context).size.width,
+            ),
+          if (images.length > 1)
+            CarouselSlider(
+              options: CarouselOptions(
+                aspectRatio: 16 / 9,
+                autoPlay: true,
+                enlargeCenterPage: true,
+              ),
+              items: images.map((image) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: EdgeInsets.symmetric(horizontal: 5.0),
+                      child: Image.network(
+                        image,
+                        fit: BoxFit.cover,
+                      ),
+                    );
+                  },
+                );
+              }).toList(),
+            ),
           if (images.isEmpty)
             Column(
               children: [
@@ -150,3 +174,4 @@ class Carousel extends StatelessWidget {
     );
   }
 }
+

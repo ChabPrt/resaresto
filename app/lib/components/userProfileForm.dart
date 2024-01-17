@@ -45,10 +45,10 @@ class UserProfileFormPopup extends StatelessWidget {
                   GestureDetector(
                     child: CircleAvatar(
                       radius: 50,
-                      backgroundImage: profileImageController.text != ""
-                          ? Image.network(profileImageController.text).image
-                          : AssetImage('assets/img/user_default_icon.jpg'),
-                    ),
+                      backgroundImage: userData.image != ""
+                          ? NetworkImage(userData.image!)
+                          : AssetImage('assets/img/user_default_icon.jpg') as ImageProvider<Object>,
+                    )
                   ),
                   TextField(
                     controller: profileImageController,
