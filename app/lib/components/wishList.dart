@@ -140,6 +140,7 @@ class WishList extends StatelessWidget {
                     itemBuilder: (context, index) {
                       String date = groupedProposals.keys.elementAt(index);
                       List<Wish> proposalsForDate = groupedProposals[date]!;
+                      proposalsForDate.sort((a, b) => a.date.compareTo(b.date));
                       return WishDetail(date: date, propositions: proposalsForDate, connectedUserId: idConnectedUser);
                     },
                   ),
