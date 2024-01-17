@@ -32,20 +32,38 @@ class _WishDetailState extends State<WishDetail> {
     }
 
     if (correspondingWish != null) {
-      correspondingWish!.usersOk?.remove(widget.connectedUserId);
+      if (selectedWish.id == correspondingWish!.id) {
+        // If the selectedWish is the same as correspondingWish, remove the user from usersOk
+        correspondingWish!.usersOk?.remove(widget.connectedUserId);
 
-      final response = await http.put(
-        Uri.parse('${AppConfig.apiBaseUrl}/Propositions/${correspondingWish!.id}'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode(correspondingWish!.toJson()),
-      );
+        final response = await http.put(
+          Uri.parse('${AppConfig.apiBaseUrl}/Propositions/${correspondingWish!.id}'),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode(correspondingWish!.toJson()),
+        );
 
-      if (response.statusCode == 200) {
-        print('Requête de suppression de l\'utilisateur de l\'ancienne proposition réussie');
-        setState(() {}); // Trigger a rebuild
-        updateUsersOk(selectedWish!, widget.connectedUserId);
+        if (response.statusCode == 200) {
+          print('Requête de suppression de l\'utilisateur de l\'ancienne proposition réussie');
+          setState(() {}); // Trigger a rebuild
+        } else {
+          print('Erreur lors de la requête de suppression de l\'utilisateur de l\'ancienne proposition : ${response.statusCode}');
+        }
       } else {
-        print('Erreur lors de la requête de suppression de l\'utilisateur de l\'ancienne proposition : ${response.statusCode}');
+        correspondingWish!.usersOk?.remove(widget.connectedUserId);
+
+        final response = await http.put(
+          Uri.parse('${AppConfig.apiBaseUrl}/Propositions/${correspondingWish!.id}'),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode(correspondingWish!.toJson()),
+        );
+
+        if (response.statusCode == 200) {
+          print('Requête de suppression de l\'utilisateur de l\'ancienne proposition réussie');
+          setState(() {}); // Trigger a rebuild
+          updateUsersOk(selectedWish!, widget.connectedUserId);
+        } else {
+          print('Erreur lors de la requête de suppression de l\'utilisateur de l\'ancienne proposition : ${response.statusCode}');
+        }
       }
     } else {
       setState(() {}); // Trigger a rebuild
