@@ -3,13 +3,6 @@ import 'package:flutter/material.dart';
 class AppConfig {
   static const String appName = "RésaResto";
 
-  // Utilisation de Google Fonts
-  //static final TextStyle headingStyle = GoogleFonts.roboto(
-  //  fontSize: 24,
-  //  fontWeight: FontWeight.bold,
-  //  color: fontPrimaryColor,
-  //);
-
   static const String apiBaseUrl = "https://resaresto.dev.arch.innlog.app";
   static const String apiKey = "41ff3dbb-a036-4d3f-93b2-9522b1b86d06";
 
