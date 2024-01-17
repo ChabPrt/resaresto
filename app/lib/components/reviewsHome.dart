@@ -49,7 +49,6 @@ class ReviewsHomeWrapper extends StatelessWidget {
       if (reviewsResponse.statusCode == 200) {
         final List<dynamic> reviewsJsonList = json.decode(reviewsResponse.body);
 
-        // Shuffle the reviews and take three random reviews
         reviewsJsonList.shuffle();
         final List<dynamic> randomReviews = reviewsJsonList.take(3).toList();
 
@@ -64,12 +63,17 @@ class ReviewsHomeWrapper extends StatelessWidget {
             final Map<String, dynamic> restaurantJson = json.decode(restaurantResponse.body);
             final Map<String, dynamic> userJson = json.decode(userResponse.body);
 
-            Review test = Review.fromJson(jsonReview);
-
-            print(test.images);
+            List<String>? images = jsonReview['image'] != null ? List<String>.from(jsonReview['image']) : null;
 
             return ReviewHomeCard(
-              review: Review.fromJson(jsonReview),
+              review: Review(
+                id: jsonReview['id'],
+                idRestaurant: jsonReview['idRestaurant'],
+                idUser: jsonReview['idUser'],
+                note: jsonReview['note'],
+                commantaire: jsonReview['commantaire'],
+                images: images,
+              ),
               restaurantName: restaurantJson["nom"],
               userName: userJson["nom"] + " " + userJson["prenom"],
             );

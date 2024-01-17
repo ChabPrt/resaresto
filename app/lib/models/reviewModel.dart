@@ -26,13 +26,13 @@ class Review {
   }
 
   static Review fromJson(Map<String, dynamic> json) {
-    return Review (
+    return Review(
       id: json['id'],
       idRestaurant: json['idRestaurant'],
       idUser: json['idUser'],
       note: json['note'],
       commantaire: json['commantaire'],
-      images: json['images'],
+      images: json['images'] != null ? List<String>.from(json['images']) : [],
     );
   }
 }

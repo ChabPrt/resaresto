@@ -73,9 +73,18 @@ class ReviewsRestaurantWrapper extends StatelessWidget {
           if (userResponse.statusCode == 200) {
             final Map<String, dynamic> userJson = json.decode(userResponse.body);
 
+            List<String>? images = jsonReview['image'] != null ? List<String>.from(jsonReview['image']) : null;
+
             return ReviewRestaurantCard(
-              review: Review.fromJson(jsonReview),
-              userName: '${userJson["nom"]} ${userJson["prenom"]}',
+              review: Review(
+                id: jsonReview['id'],
+                idRestaurant: jsonReview['idRestaurant'],
+                idUser: jsonReview['idUser'],
+                note: jsonReview['note'],
+                commantaire: jsonReview['commantaire'],
+                images: images,
+              ),
+              userName: userJson["nom"] + " " + userJson["prenom"],
             );
           } else {
             throw Exception('Failed to load user data from the API');
