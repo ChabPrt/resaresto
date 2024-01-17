@@ -35,11 +35,9 @@ class _LoginFormState extends State<LoginForm> {
       final response = await http.get(apiUrl);
 
       if (response.statusCode == 200) {
-        // Ajouter le mécanisme de "cookie" en utilisant SharedPreferences
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('user', emailController.text);
 
-        // Rediriger l'utilisateur vers la page HomeView
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => HomeView()),

@@ -24,7 +24,7 @@ class GroupDetails extends StatelessWidget {
               child: IconButton(
                 icon: Icon(Icons.close),
                 onPressed: () {
-                  Navigator.of(context).pop(); // Cela fermera la fenêtre de dialogue
+                  Navigator.of(context).pop();
                 },
               ),
             ),

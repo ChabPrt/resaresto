@@ -189,15 +189,12 @@ class _GroupFormState extends State<GroupForm> {
         if (responseLink.statusCode == 201) {
           print('Utilisateur lié au groupe !');
         }else {
-          // La création du groupe a échoué, vous pouvez traiter la réponse d'erreur si nécessaire
           print('Erreur lors de la liasion de l\'utilisateur au du groupe: ${responseLink.statusCode}');
         }
       } else {
-        // La création du groupe a échoué, vous pouvez traiter la réponse d'erreur si nécessaire
         print('Erreur lors de la création du groupe: ${response.statusCode}');
       }
     } catch (e) {
-      // Gestion des erreurs lors de la requête
       print('Erreur lors de la création du groupe: $e');
     }
   }
@@ -226,15 +223,12 @@ class _GroupFormState extends State<GroupForm> {
         if (responseLink.statusCode == 201) {
           print('Utilisateur lié au groupe !');
         }else {
-          // La création du groupe a échoué, vous pouvez traiter la réponse d'erreur si nécessaire
           print('Erreur lors de la liasion de l\'utilisateur au du groupe: ${responseLink.statusCode}');
         }
       } else {
-        // Rejoindre le groupe a échoué, vous pouvez traiter la réponse d'erreur si nécessaire
         print('Groupe introuvable pour le code: ${response.statusCode}');
       }
     } catch (e) {
-      // Gestion des erreurs lors de la requête
       print('Erreur de recupperation du groupe: $e');
     }
   }

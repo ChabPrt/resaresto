@@ -37,7 +37,6 @@ class RestaurantCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Nom
                       Text(
                         restaurant.nom,
                         style: TextStyle(
@@ -47,13 +46,11 @@ class RestaurantCard extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                       SizedBox(height: 8),
-                      // Adresse
                       Text(
                         restaurant.adresse,
                         style: TextStyle(fontSize: 16),
                       ),
                       SizedBox(height: 8),
-                      // Note
                       Row(
                         children: List.generate(
                           5,

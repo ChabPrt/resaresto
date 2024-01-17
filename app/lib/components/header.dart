@@ -132,8 +132,6 @@ class _HeaderState extends State<Header> {
                     SharedPreferences prefs =
                     await SharedPreferences.getInstance();
                     prefs.remove('user');
-
-                    // Rediriger vers la page de connexion
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => LoginView()),
@@ -155,10 +153,8 @@ class _HeaderState extends State<Header> {
 
   ImageProvider<Object> _buildImageProvider() {
     if (sourceProfilImage.startsWith('http')) {
-      // Si l'URL commence par 'http', utilisez NetworkImage
       return NetworkImage(sourceProfilImage);
     } else {
-      // Sinon, utilisez AssetImage
       return AssetImage(sourceProfilImage);
     }
   }

@@ -64,6 +64,10 @@ class ReviewsHomeWrapper extends StatelessWidget {
             final Map<String, dynamic> restaurantJson = json.decode(restaurantResponse.body);
             final Map<String, dynamic> userJson = json.decode(userResponse.body);
 
+            Review test = Review.fromJson(jsonReview);
+
+            print(test.images);
+
             return ReviewHomeCard(
               review: Review.fromJson(jsonReview),
               restaurantName: restaurantJson["nom"],
