@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../components/groupList.dart';
 import '../components/header.dart';
-import '../views/homeView.dart';
-import '../views/loginView.dart';
 import '../components/userProfile.dart';
 
 class ProfileView extends StatelessWidget {
@@ -13,24 +10,7 @@ class ProfileView extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,  // Aligner les éléments à gauche
         children: [
-          Header(
-            onProfilePressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomeView()),
-              );
-            },
-            onLogoutPressed: () async {
-              SharedPreferences prefs = await SharedPreferences.getInstance();
-              prefs.remove('user');
-
-              // Rediriger vers la page de connexion
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => LoginView()),
-              );
-            },
-          ),
+          Header(),
           const SizedBox(height: 35.0),
           UserProfileScreen(),
           const SizedBox(height: 80.0),

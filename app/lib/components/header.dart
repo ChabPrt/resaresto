@@ -1,16 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import '../config/app_config.dart';
-import 'package:app/views/loginView.dart';
+import 'package:app/config/app_config.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../views/homeView.dart';
+import '../views/loginView.dart';
+import '../views/profileView.dart';
 
 class Header extends StatefulWidget {
-  final VoidCallback onProfilePressed;
-  final VoidCallback onLogoutPressed;
+  final bool isHomePage;
 
-  Header({required this.onProfilePressed, required this.onLogoutPressed});
+  Header({this.isHomePage = false});
 
   @override
   _HeaderState createState() => _HeaderState();
@@ -40,7 +42,8 @@ class _HeaderState extends State<Header> {
         return;
       }
 
-      final String apiUrl = '${AppConfig.apiBaseUrl}/Utilisateurs/Recuperer/$userEmail';
+      final String apiUrl =
+          '${AppConfig.apiBaseUrl}/Utilisateurs/Recuperer/$userEmail';
       final response = await http.get(Uri.parse(apiUrl));
 
       if (response.statusCode == 200) {
@@ -64,7 +67,7 @@ class _HeaderState extends State<Header> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16.0),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppConfig.principalColor,
       ),
       child: FutureBuilder(
@@ -90,7 +93,10 @@ class _HeaderState extends State<Header> {
                 ),
                 if (levelAcces == 1)
                   GestureDetector(
-                    onTap: widget.onProfilePressed,
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ProfileView()),
+                    ),
                     child: const Icon(
                       Icons.settings,
                       color: AppConfig.fontWhiteColor,
@@ -98,15 +104,41 @@ class _HeaderState extends State<Header> {
                     ),
                   ),
                 if (levelAcces == 1) SizedBox(width: 10.0),
+                if (!widget.isHomePage)
+                  GestureDetector(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomeView()),
+                    ),
+                    child: const Icon(
+                      Icons.home,
+                      color: AppConfig.fontWhiteColor,
+                      size: 30.0,
+                    ),
+                  ),
+                if (!widget.isHomePage) SizedBox(width: 10.0),
                 GestureDetector(
-                  onTap: widget.onProfilePressed,
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ProfileView()),
+                  ),
                   child: CircleAvatar(
                     backgroundImage: AssetImage(sourceProfilImage),
                   ),
                 ),
                 SizedBox(width: 10.0),
                 GestureDetector(
-                  onTap: widget.onLogoutPressed,
+                  onTap: () async {
+                    SharedPreferences prefs =
+                    await SharedPreferences.getInstance();
+                    prefs.remove('user');
+
+                    // Rediriger vers la page de connexion
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginView()),
+                    );
+                  },
                   child: const Icon(
                     Icons.exit_to_app,
                     color: AppConfig.fontWhiteColor,

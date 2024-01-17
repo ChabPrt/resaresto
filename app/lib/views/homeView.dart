@@ -1,10 +1,7 @@
-import 'package:app/views/profileView.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../components/header.dart';
 import '../components/searchResto.dart';
 import '../components/reviewsHome.dart';
-import 'package:app/views/loginView.dart';
 
 class HomeView extends StatelessWidget {
   @override
@@ -13,22 +10,7 @@ class HomeView extends StatelessWidget {
       body: ListView(
         children: [
           Header(
-            onProfilePressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ProfileView()),
-              );
-            },
-            onLogoutPressed: () async {
-              SharedPreferences prefs = await SharedPreferences.getInstance();
-              prefs.remove('user');
-
-              // Rediriger vers la page de connexion
-              Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => LoginView()),
-              );
-            }
+            isHomePage: true,
           ),
           const SizedBox(height: 35.0),
           SearchResto(),
