@@ -4,20 +4,51 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../models/restaurantModel.dart';
 import '../components/reviewsRestaurant.dart';
-import '../models/reviewModel.dart';
 
-class RestaurantCard extends StatelessWidget {
+class RestaurantCard extends StatefulWidget {
   final Restaurant restaurant;
-  final String date;
-  late Review rewiew;
+  final String? date;
+  final bool? isSelected;
+  final void Function(int restaurantId)? onCardSelected;
 
-  RestaurantCard({required this.restaurant, required this.date});
+  RestaurantCard({
+    required this.restaurant,
+    this.date,
+    this.isSelected,
+    this.onCardSelected,
+  });
+
+  @override
+  _RestaurantCardState createState() => _RestaurantCardState();
+}
+
+class _RestaurantCardState extends State<RestaurantCard> {
+  bool _isSelected = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _isSelected = widget.isSelected ?? false;
+  }
 
   @override
   Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        widget.onCardSelected?.call(widget.restaurant.id ?? 0);
+        setState(() {
+          _isSelected = !_isSelected;
+        });
+      },
+      child: _buildCard(context),
+    );
+  }
+
+  Widget _buildCard(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
+        side: _isSelected ? BorderSide(color: Colors.green, width: 2.0) : BorderSide.none,
       ),
       elevation: 4,
       margin: EdgeInsets.all(8),
@@ -29,7 +60,7 @@ class RestaurantCard extends StatelessWidget {
               Container(
                 width: MediaQuery.of(context).size.width / 3,
                 padding: const EdgeInsets.all(15.0),
-                child: Carousel(images: restaurant.image ?? []),
+                child: Carousel(images: widget.restaurant.image ?? []),
               ),
               Expanded(
                 child: Padding(
@@ -38,7 +69,7 @@ class RestaurantCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        restaurant.nom,
+                        widget.restaurant.nom,
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -47,7 +78,7 @@ class RestaurantCard extends StatelessWidget {
                       ),
                       SizedBox(height: 8),
                       Text(
-                        restaurant.adresse,
+                        widget.restaurant.adresse,
                         style: TextStyle(fontSize: 16),
                       ),
                       SizedBox(height: 8),
@@ -55,7 +86,7 @@ class RestaurantCard extends StatelessWidget {
                         children: List.generate(
                           5,
                               (index) {
-                            if (index < restaurant.note.round()) {
+                            if (index < widget.restaurant.note.round()) {
                               return Icon(
                                 Icons.star,
                                 color: Colors.orange,
@@ -75,45 +106,46 @@ class RestaurantCard extends StatelessWidget {
               ),
             ],
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Les avis : ",
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
+          if (widget.date != null)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Les avis : ",
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              ReviewsRestaurantWrapper(idRestaurant: restaurant.id ?? 0),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  children: [
-                    Text(
-                      "Faire une proposition de réservation ",
-                      style: TextStyle(
-                        fontSize: 15.0,
-                        fontWeight: FontWeight.bold,
+                ReviewsRestaurantWrapper(idRestaurant: widget.restaurant.id ?? 0),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        "Faire une proposition de réservation ",
+                        style: TextStyle(
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    FloatingActionButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return WishForm(restaurant: restaurant, date: date);
-                          },
-                        );
-                      },
-                      child: Icon(Icons.add),
-                      backgroundColor: AppConfig.primaryColor,
-                    ),
-                  ],
-                )
-              ),
-            ],
-          ),
+                      FloatingActionButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return WishForm(restaurant: widget.restaurant, date: widget.date ?? "");
+                            },
+                          );
+                        },
+                        child: Icon(Icons.add),
+                        backgroundColor: AppConfig.primaryColor,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
         ],
       ),
     );
@@ -171,4 +203,3 @@ class Carousel extends StatelessWidget {
     );
   }
 }
-

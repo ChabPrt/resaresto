@@ -8,7 +8,7 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,  // Aligner les éléments à gauche
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Header(),
           const SizedBox(height: 35.0),

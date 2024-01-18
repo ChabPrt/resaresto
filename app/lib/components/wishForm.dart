@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:app/models/wishModel.dart';
 import 'package:app/models/groupModel.dart';
 import 'package:app/models/groupWishModel.dart';
+import 'package:app/views/profileView.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:app/config/app_config.dart';
@@ -161,7 +162,7 @@ class _WishFormState extends State<WishForm> {
                   )
                 ],
               ),
-              const SizedBox(height: 10.0),
+              const SizedBox(width: 35.0),
               Row(
                 children: [
                   Text(
@@ -224,7 +225,10 @@ class _WishFormState extends State<WishForm> {
                         usersOk: [],
                       );
                       saveProposition(newProposition, _selectedGroupId);
-                      Navigator.pop(context);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => ProfileView()),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppConfig.principalColor,
