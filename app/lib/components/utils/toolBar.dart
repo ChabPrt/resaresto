@@ -1,7 +1,5 @@
-import 'dart:convert';
-
 import 'package:app/components/restaurant/restaurantForm.dart';
-import 'package:app/models/restaurantModel.dart';
+import 'package:app/components/user/userAdminForm.dart';
 import 'package:app/views/adminView.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -25,6 +23,8 @@ class _ToolbarState extends State<Toolbar> {
 
 
   bool isValidId(String methodeCall) {
+
+    print(widget.idCurrentElement);
     if(methodeCall == "create") return true;
 
     return widget.idCurrentElement != null && widget.idCurrentElement != 0;
@@ -84,6 +84,15 @@ class _ToolbarState extends State<Toolbar> {
                         context: context,
                         builder: (BuildContext context) {
                           return RestaurantForm(idRestaurant: widget.idCurrentElement);
+                        },
+                      );
+                    }
+
+                    if(widget.context == "Utilisateurs") {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return UserAdminForm(idUser: widget.idCurrentElement ?? 0);
                         },
                       );
                     }

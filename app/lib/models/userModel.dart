@@ -4,7 +4,7 @@ class User {
   final String prenom;
   final String mail;
   final String? pass;
-  final int? levelAcces;
+  late final int? levelAcces;
   final String? image;
 
   User({

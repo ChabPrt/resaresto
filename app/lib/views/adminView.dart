@@ -90,7 +90,9 @@ class _AdminViewState extends State<AdminView> {
                     scrollDirection: Axis.vertical,
                     child: UserList(
                       onUserSelected: (int? userId) {
-                        selectedUserId = userId;
+                        setState(() {
+                          selectedUserId = userId;
+                        });
                       },
                     ),
                   ),
