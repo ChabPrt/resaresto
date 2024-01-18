@@ -3,7 +3,7 @@ class User {
   final String nom;
   final String prenom;
   final String mail;
-  final String pass;
+  final String? pass;
   final int? levelAcces;
   final String? image;
 
@@ -12,7 +12,7 @@ class User {
     required this.nom,
     required this.prenom,
     required this.mail,
-    required this.pass,
+    this.pass,
     this.levelAcces,
     this.image,
   });
