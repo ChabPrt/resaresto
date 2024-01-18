@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -26,17 +28,20 @@ class _LoginFormState extends State<LoginForm> {
 
   Future<void> verifyUser(String email, String password) async {
     try {
-      final apiUrl = Uri.parse('${AppConfig.apiBaseUrl}/Utilisateurs/Authorize')
-          .replace(queryParameters: {
-        'Mail': email,
-        'Pass': password,
-      });
+      final apiUrl = Uri.parse('${AppConfig.apiBaseUrl}/Utilisateurs/Authorize?Mail=$email&Pass=$password');
 
-      final response = await http.get(apiUrl);
+      final response = await http.get(
+        apiUrl,
+        headers: {
+          'X-Apikey': '${AppConfig.apiKey}',
+        },
+      );
+
 
       if (response.statusCode == 200) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('user', emailController.text);
+        String userEmail = emailController.text;
+        prefs.setString('user', userEmail);
 
         Navigator.pushReplacement(
           context,
@@ -92,7 +97,7 @@ class _LoginFormState extends State<LoginForm> {
           ),
           const SizedBox(height: 20),
           showError
-              ? const Text(
+              ? Text(
             'Email ou mot de passe incorrect',
             style: TextStyle(color: Colors.red),
           )

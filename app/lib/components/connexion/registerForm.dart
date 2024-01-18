@@ -37,7 +37,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
 
       final response = await http.post(
         apiUrl,
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+          'X-Apikey': '${AppConfig.apiKey}',
+          'Content-Type': 'application/json'
+        },
         body: jsonString,
       );
 

@@ -12,7 +12,10 @@ class UserList extends StatefulWidget {
 
   Future<List<User>> fetchUsers() async {
     try {
-      final response = await http.get(Uri.parse('${AppConfig.apiBaseUrl}/Utilisateurs'));
+      final response = await http.get(Uri.parse('${AppConfig.apiBaseUrl}/Utilisateurs'),
+        headers: {
+          'X-Apikey': '${AppConfig.apiKey}',
+        },);
 
       if (response.statusCode == 200) {
         List<dynamic> data = json.decode(response.body);

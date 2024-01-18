@@ -44,7 +44,10 @@ class ReviewsHomeWrapper extends StatelessWidget {
   Future<List<ReviewHomeCard>> fetchReviews() async {
     try {
       final reviewsUrl = Uri.parse('${AppConfig.apiBaseUrl}/Avis');
-      final reviewsResponse = await http.get(reviewsUrl);
+      final reviewsResponse = await http.get(reviewsUrl,
+        headers: {
+          'X-Apikey': '${AppConfig.apiKey}',
+        },);
 
       if (reviewsResponse.statusCode == 200) {
         final List<dynamic> reviewsJsonList = json.decode(reviewsResponse.body);
@@ -56,8 +59,14 @@ class ReviewsHomeWrapper extends StatelessWidget {
           final restaurantUrl = Uri.parse('${AppConfig.apiBaseUrl}/Restaurants/${jsonReview['idRestaurant']}');
           final userUrl = Uri.parse('${AppConfig.apiBaseUrl}/Utilisateurs/${jsonReview['idUser']}');
 
-          final restaurantResponse = await http.get(restaurantUrl);
-          final userResponse = await http.get(userUrl);
+          final restaurantResponse = await http.get(restaurantUrl,
+            headers: {
+              'X-Apikey': '${AppConfig.apiKey}',
+            },);
+          final userResponse = await http.get(userUrl,
+            headers: {
+              'X-Apikey': '${AppConfig.apiKey}',
+            },);
 
           if (restaurantResponse.statusCode == 200 && userResponse.statusCode == 200) {
             final Map<String, dynamic> restaurantJson = json.decode(restaurantResponse.body);

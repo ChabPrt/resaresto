@@ -75,13 +75,19 @@ class _WishFormState extends State<WishForm> {
       }
 
       final String userApiUrl = '${AppConfig.apiBaseUrl}/Utilisateurs/Recuperer/$userEmail';
-      final userResponse = await http.get(Uri.parse(userApiUrl));
+      final userResponse = await http.get(Uri.parse(userApiUrl),
+        headers: {
+          'X-Apikey': '${AppConfig.apiKey}',
+        },);
 
       if (userResponse.statusCode == 200) {
         Map<String, dynamic> userData = json.decode(userResponse.body);
         idUser = userData['id'];
 
-        final groupListResponse = await http.get(Uri.parse('${AppConfig.apiBaseUrl}/Groupes/RecupererUsers/$idUser'));
+        final groupListResponse = await http.get(Uri.parse('${AppConfig.apiBaseUrl}/Groupes/RecupererUsers/$idUser'),
+          headers: {
+            'X-Apikey': '${AppConfig.apiKey}',
+          },);
 
         if (groupListResponse.statusCode == 200) {
           final List<dynamic> groupUsersJsonList = json.decode(groupListResponse.body);
@@ -258,7 +264,9 @@ class _WishFormState extends State<WishForm> {
 
       final response = await http.post(
         apiUrl,
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+          'X-Apikey': '${AppConfig.apiKey}',
+        },
         body: jsonString,
       );
 
@@ -274,7 +282,9 @@ class _WishFormState extends State<WishForm> {
 
         final responseLink = await http.post(
           Uri.parse('${AppConfig.apiBaseUrl}/GroupePropositions'),
-          headers: {'Content-Type': 'application/json'},
+          headers: {
+            'X-Apikey': '${AppConfig.apiKey}',
+          },
           body: jsonString,
         );
         if (responseLink.statusCode == 201) {

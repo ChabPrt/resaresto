@@ -57,14 +57,20 @@ class GroupListCards extends StatelessWidget {
       }
 
       final String userApiUrl = '${AppConfig.apiBaseUrl}/Utilisateurs/Recuperer/$userEmail';
-      final userResponse = await http.get(Uri.parse(userApiUrl));
+      final userResponse = await http.get(Uri.parse(userApiUrl),
+        headers: {
+          'X-Apikey': '${AppConfig.apiKey}',
+        },);
 
       if (userResponse.statusCode == 200) {
         Map<String, dynamic> userData = json.decode(userResponse.body);
         idUser = userData['id'];
 
         final groupListApiUrl = Uri.parse('${AppConfig.apiBaseUrl}/Groupes/RecupererUsers/$idUser');
-        final groupListResponse = await http.get(groupListApiUrl);
+        final groupListResponse = await http.get(groupListApiUrl,
+          headers: {
+            'X-Apikey': '${AppConfig.apiKey}',
+          },);
 
         if (groupListResponse.statusCode == 200) {
           final List<dynamic> groupUsersJsonList = json.decode(groupListResponse.body);
@@ -74,7 +80,10 @@ class GroupListCards extends StatelessWidget {
 
             await Future.forEach(jsonGroupUser['utilisateurs'] as List<dynamic>, (userId) async {
               final userApiUrl = Uri.parse('${AppConfig.apiBaseUrl}/Utilisateurs/$userId');
-              final userResponse = await http.get(userApiUrl);
+              final userResponse = await http.get(userApiUrl,
+                headers: {
+                  'X-Apikey': '${AppConfig.apiKey}',
+                },);
 
               if (userResponse.statusCode == 200) {
                 Map<String, dynamic> userJson = json.decode(userResponse.body);

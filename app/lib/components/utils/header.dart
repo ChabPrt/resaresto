@@ -45,7 +45,10 @@ class _HeaderState extends State<Header> {
 
       final String apiUrl =
           '${AppConfig.apiBaseUrl}/Utilisateurs/Recuperer/$userEmail';
-      final response = await http.get(Uri.parse(apiUrl));
+      final response = await http.get(Uri.parse(apiUrl),
+        headers: {
+          'X-Apikey': '${AppConfig.apiKey}',
+        },);
 
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonData = json.decode(response.body);

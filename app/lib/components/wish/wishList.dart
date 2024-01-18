@@ -20,7 +20,10 @@ class WishList extends StatelessWidget {
       String userEmail = prefs.getString('user') ?? '';
 
       final String apiUrl = '${AppConfig.apiBaseUrl}/Utilisateurs/Recuperer/$userEmail';
-      final response = await http.get(Uri.parse(apiUrl));
+      final response = await http.get(Uri.parse(apiUrl),
+        headers: {
+          'X-Apikey': '${AppConfig.apiKey}',
+        },);
 
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonData = json.decode(response.body);
@@ -37,7 +40,10 @@ class WishList extends StatelessWidget {
   Future<List<Wish>> fetchProposalsByGroupId(int groupId) async {
     try {
       final response =
-      await http.get(Uri.parse('${AppConfig.apiBaseUrl}/Groupes/RecupererPropositions/$groupId'));
+      await http.get(Uri.parse('${AppConfig.apiBaseUrl}/Groupes/RecupererPropositions/$groupId'),
+        headers: {
+          'X-Apikey': '${AppConfig.apiKey}',
+        },);
 
       if (response.statusCode == 200) {
         List<dynamic> data = json.decode(response.body);
@@ -62,7 +68,10 @@ class WishList extends StatelessWidget {
 
   Future<Wish> fetchWishById(int wishId) async {
     try {
-      final response = await http.get(Uri.parse('${AppConfig.apiBaseUrl}/Propositions/$wishId'));
+      final response = await http.get(Uri.parse('${AppConfig.apiBaseUrl}/Propositions/$wishId'),
+        headers: {
+          'X-Apikey': '${AppConfig.apiKey}',
+        },);
 
       if (response.statusCode == 200) {
         return Wish.fromJson(json.decode(response.body));

@@ -12,7 +12,10 @@ class RestaurantAllItems extends StatefulWidget {
 
   Future<List<Restaurant>> fetchRestaurants() async {
     try {
-      final response = await http.get(Uri.parse('${AppConfig.apiBaseUrl}/Restaurants'));
+      final response = await http.get(Uri.parse('${AppConfig.apiBaseUrl}/Restaurants'),
+        headers: {
+          'X-Apikey': '${AppConfig.apiKey}',
+        },);
 
       if (response.statusCode == 200) {
         List<dynamic> data = json.decode(response.body);

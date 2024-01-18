@@ -83,7 +83,10 @@ class WishCard extends StatelessWidget {
 
   Future<String> loadUserName(int userId) async {
     final userApiUrl = Uri.parse('${AppConfig.apiBaseUrl}/Utilisateurs/$userId');
-    final userResponse = await http.get(userApiUrl);
+    final userResponse = await http.get(userApiUrl,
+      headers: {
+        'X-Apikey': '${AppConfig.apiKey}',
+      },);
 
     if (userResponse.statusCode == 200) {
       Map<String, dynamic> userJson = json.decode(userResponse.body);
@@ -95,7 +98,10 @@ class WishCard extends StatelessWidget {
 
   Future<String> loadRestaurantName(int restaurantId) async {
     final restaurantApiUrl = Uri.parse('${AppConfig.apiBaseUrl}/Restaurants/$restaurantId');
-    final restaurantResponse = await http.get(restaurantApiUrl);
+    final restaurantResponse = await http.get(restaurantApiUrl,
+      headers: {
+        'X-Apikey': '${AppConfig.apiKey}',
+      },);
 
     if (restaurantResponse.statusCode == 200) {
       Map<String, dynamic> restaurantJson = json.decode(restaurantResponse.body);

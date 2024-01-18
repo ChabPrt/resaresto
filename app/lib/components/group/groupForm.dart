@@ -167,7 +167,10 @@ class _GroupFormState extends State<GroupForm> {
 
       final response = await http.post(
         Uri.parse('${AppConfig.apiBaseUrl}/Groupes'),
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+          'X-Apikey': '${AppConfig.apiKey}',
+          'Content-Type': 'application/json'
+        },
         body: jsonGroupString,
       );
 
@@ -183,7 +186,10 @@ class _GroupFormState extends State<GroupForm> {
 
         final responseLink = await http.post(
           Uri.parse('${AppConfig.apiBaseUrl}/GroupeUtilisateurs'),
-          headers: {'Content-Type': 'application/json'},
+          headers: {
+            'X-Apikey': '${AppConfig.apiKey}',
+            'Content-Type': 'application/json'
+          },
           body: jsonString,
         );
         if (responseLink.statusCode == 201) {
@@ -203,7 +209,10 @@ class _GroupFormState extends State<GroupForm> {
     try {
 
       final String apiUrl = '${AppConfig.apiBaseUrl}/Groupes/$code';
-      final response = await http.get(Uri.parse(apiUrl));
+      final response = await http.get(Uri.parse(apiUrl),
+        headers: {
+          'X-Apikey': '${AppConfig.apiKey}',
+        },);
 
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonData = json.decode(response.body);
@@ -216,7 +225,10 @@ class _GroupFormState extends State<GroupForm> {
 
         final responseLink = await http.post(
           Uri.parse('${AppConfig.apiBaseUrl}/GroupeUtilisateurs'),
-          headers: {'Content-Type': 'application/json'},
+          headers: {
+            'X-Apikey': '${AppConfig.apiKey}',
+            'Content-Type': 'application/json'
+          },
           body: jsonString,
         );
 

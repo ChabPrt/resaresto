@@ -15,7 +15,10 @@ class RestaurantList extends StatelessWidget {
   Future<List<Restaurant>> fetchRestaurantByAddress(String address) async {
     try {
       final response =
-      await http.get(Uri.parse('${AppConfig.apiBaseUrl}/Restaurants/Recuperer/$address'));
+      await http.get(Uri.parse('${AppConfig.apiBaseUrl}/Restaurants/Recuperer/$address'),
+        headers: {
+          'X-Apikey': '${AppConfig.apiKey}',
+        },);
 
       if (response.statusCode == 200) {
         List<dynamic> data = json.decode(response.body);

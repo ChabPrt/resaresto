@@ -104,7 +104,10 @@ class UserProfileFormPopup extends StatelessWidget {
       print(jsonString);
       final response = await http.put(
         apiUrl,
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+          'X-Apikey': '${AppConfig.apiKey}',
+          'Content-Type': 'application/json'
+        },
         body: jsonString,
       );
 

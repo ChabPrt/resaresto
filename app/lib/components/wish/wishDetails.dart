@@ -39,7 +39,10 @@ class _WishDetailState extends State<WishDetail> {
 
         final response = await http.put(
           Uri.parse('${AppConfig.apiBaseUrl}/Propositions/${correspondingWish!.id}'),
-          headers: {'Content-Type': 'application/json'},
+          headers: {
+            'X-Apikey': '${AppConfig.apiKey}',
+            'Content-Type': 'application/json'
+          },
           body: jsonEncode(correspondingWish!.toJson()),
         );
 
@@ -54,7 +57,10 @@ class _WishDetailState extends State<WishDetail> {
 
         final response = await http.put(
           Uri.parse('${AppConfig.apiBaseUrl}/Propositions/${correspondingWish!.id}'),
-          headers: {'Content-Type': 'application/json'},
+          headers: {
+            'X-Apikey': '${AppConfig.apiKey}',
+            'Content-Type': 'application/json'
+          },
           body: jsonEncode(correspondingWish!.toJson()),
         );
 
@@ -80,7 +86,10 @@ class _WishDetailState extends State<WishDetail> {
 
       final response = await http.put(
         Uri.parse('${AppConfig.apiBaseUrl}/Propositions/${wishToUpdate.id}'),
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+          'X-Apikey': '${AppConfig.apiKey}',
+          'Content-Type': 'application/json'
+        },
         body: jsonEncode(wishToUpdate.toJson()),
       );
 
