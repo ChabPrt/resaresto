@@ -79,7 +79,7 @@ class _AdminViewState extends State<AdminView> {
                 ),
                 Row(
                   children: [
-                    Toolbar(context: "Utilisateurs", idCurrentElement: selectedUserId),
+                    Toolbar(create: false, remove: false, context: "Utilisateurs", idCurrentElement: selectedUserId),
                   ],
                 ),
                 Container(

@@ -1,4 +1,11 @@
+import 'dart:convert';
+
+import 'package:app/components/restaurant/restaurantForm.dart';
+import 'package:app/models/restaurantModel.dart';
+import 'package:app/views/adminView.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import '../../config/app_config.dart';
 
 class Toolbar extends StatefulWidget {
   final bool create;
@@ -14,7 +21,12 @@ class Toolbar extends StatefulWidget {
 }
 
 class _ToolbarState extends State<Toolbar> {
-  bool isValidId() {
+  late String methodeCall;
+
+
+  bool isValidId(String methodeCall) {
+    if(methodeCall == "create") return true;
+
     return widget.idCurrentElement != null && widget.idCurrentElement != 0;
   }
 
@@ -35,9 +47,15 @@ class _ToolbarState extends State<Toolbar> {
               child: IconButton(
                 icon: Icon(Icons.add),
                 onPressed: () {
-                  if (isValidId()) {
-                    // Votre logique ici lorsque idCurrentElement est différent de 0
-                    print('idCurrentElement is valid');
+                  if (isValidId("create")) {
+                    if(widget.context == "Restaurants") {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return RestaurantForm();
+                        },
+                      );
+                    }
                   }
                 },
               ),
@@ -60,9 +78,15 @@ class _ToolbarState extends State<Toolbar> {
               child: IconButton(
                 icon: Icon(Icons.edit),
                 onPressed: () {
-                  if (isValidId()) {
-                    // Votre logique ici lorsque idCurrentElement est différent de 0
-                    print('idCurrentElement is valid');
+                  if (isValidId("edit")) {
+                    if(widget.context == "Restaurants") {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return RestaurantForm(idRestaurant: widget.idCurrentElement);
+                        },
+                      );
+                    }
                   }
                 },
               ),
@@ -85,9 +109,8 @@ class _ToolbarState extends State<Toolbar> {
               child: IconButton(
                 icon: Icon(Icons.delete),
                 onPressed: () {
-                  if (isValidId()) {
-                    // Votre logique ici lorsque idCurrentElement est différent de 0
-                    print('idCurrentElement is valid');
+                  if (isValidId("remove")) {
+                    if(widget.context == "Restaurants") deleteRestaurant(context, widget.idCurrentElement ?? 0);
                   }
                 },
               ),
@@ -104,6 +127,33 @@ class _ToolbarState extends State<Toolbar> {
         children: children,
       ),
     );
+  }
+
+  Future<void> deleteRestaurant(BuildContext context, int idRestaurant) async {
+    final apiUrl = Uri.parse(
+        '${AppConfig.apiBaseUrl}/Restaurants/${idRestaurant}');
+
+    try {
+      final response = await http.delete(
+        apiUrl,
+        headers: {
+          'X-Apikey': '${AppConfig.apiKey}'
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print('Suppression réussite');
+
+        //Pb de retour arrière
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => AdminView()),
+        );
+      } else {
+        print('Erreur lors de la suppression: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Erreur de requête: $e');
+    }
   }
 }
 
