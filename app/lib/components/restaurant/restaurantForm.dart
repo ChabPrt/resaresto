@@ -217,7 +217,6 @@ class _RestaurantFormState extends State<RestaurantForm> {
                   ),
                   TextField(
                     controller: noteController,
-                    obscureText: true,
                     decoration: InputDecoration(labelText: 'Note du restaurant'),
                   ),
                   const SizedBox(height: 40),
