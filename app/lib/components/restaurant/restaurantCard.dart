@@ -156,8 +156,8 @@ class _RestaurantCardState extends State<RestaurantCard> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          content: WishForm(restaurant: widget.restaurant, date: widget.date ?? ""),
+        return Dialog(
+          child: WishForm(restaurant: widget.restaurant, date: widget.date ?? ""),
         );
       },
     );

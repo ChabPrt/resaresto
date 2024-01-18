@@ -30,23 +30,17 @@ class _WishFormState extends State<WishForm> {
 
   final TextEditingController _dateController = TextEditingController();
   List<Group> _groupList = [];
-  bool _groupsFetched = false;
 
   @override
   void initState() {
     super.initState();
     _selectedDate = widget.date;
     _dateController.text = _selectedDate;
+
+    _fetchGroups();
   }
 
   Future<void> _selectDate(BuildContext context) async {
-    if (!_groupsFetched) {
-      await _fetchGroups();
-      setState(() {
-        _groupsFetched = true;
-      });
-    }
-
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateFormat('dd/MM/yyyy').parse(_selectedDate),
@@ -117,9 +111,8 @@ class _WishFormState extends State<WishForm> {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Dialog(
-        child: Container(
-          height: 500.0,
-          width: 500.0,
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
           child: Column(
             children: [
               Text(
@@ -179,7 +172,7 @@ class _WishFormState extends State<WishForm> {
                     ),
                   ),
                   Expanded(
-                    child:  DropdownButtonFormField<int>(
+                    child: DropdownButtonFormField<int>(
                       onTap: () {
 
                       },
@@ -250,7 +243,7 @@ class _WishFormState extends State<WishForm> {
               ),
             ],
           ),
-        ),
+        )
       ),
     );
   }
