@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:app/models/userModel.dart';
+import 'package:app/views/homeView.dart';
+import 'package:app/views/loginView.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -45,6 +47,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
       );
 
       if (response.statusCode == 201) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => LoginView()),
+        );
         print('Inscription réussie');
       } else {
         print(jsonString);

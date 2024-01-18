@@ -83,11 +83,6 @@ class _GroupFormState extends State<GroupForm> {
                               libelle: _labelController.text
                             );
                             createGroup(newGroup, widget.idUser);
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(builder: (context) => ProfileView()),
-                            );
-
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppConfig.principalColor,
@@ -131,11 +126,6 @@ class _GroupFormState extends State<GroupForm> {
                           onPressed: () {
                             String code = _codeController.text;
                             joinGroup(code, widget.idUser);
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(builder: (context) => ProfileView()),
-                            );
-
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppConfig.fontWhiteColor,
@@ -193,6 +183,10 @@ class _GroupFormState extends State<GroupForm> {
           body: jsonString,
         );
         if (responseLink.statusCode == 201) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => ProfileView()),
+          );
           print('Utilisateur lié au groupe !');
         }else {
           print('Erreur lors de la liasion de l\'utilisateur au du groupe: ${responseLink.statusCode}');
@@ -234,6 +228,10 @@ class _GroupFormState extends State<GroupForm> {
 
         if (responseLink.statusCode == 201) {
           print('Utilisateur lié au groupe !');
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => ProfileView()),
+          );
         }else {
           print('Erreur lors de la liasion de l\'utilisateur au du groupe: ${responseLink.statusCode}');
         }
