@@ -1,4 +1,7 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../config/app_config.dart';
 import '../wish/wishList.dart';
 
@@ -46,6 +49,13 @@ class GroupDetails extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text('Code: $code'),
+                        IconButton(
+                          icon: Icon(Icons.content_copy),
+                          onPressed: () {
+                            _copyToClipboard('$code');
+                          },
+                          tooltip: 'Copier dans le Presse-papiers',
+                        ),
                         SizedBox(width: 30.0),
                         Text('Utilisateurs: ${users.join(', ')}'),],
                     ),
@@ -58,6 +68,15 @@ class GroupDetails extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _copyToClipboard(String text) {
+    Clipboard.setData(ClipboardData(text: text));
+    ScaffoldMessenger.of(context as BuildContext).showSnackBar(
+      SnackBar(
+        content: Text('Code copié dans le presse-papiers'),
       ),
     );
   }

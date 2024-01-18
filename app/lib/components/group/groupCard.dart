@@ -1,5 +1,8 @@
+import 'dart:js';
+
 import 'package:app/config/app_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'groupDetails.dart';
 
@@ -40,10 +43,26 @@ class GroupCard extends StatelessWidget {
             children: [
               Text('Titre: $title'),
               Text('Code: $code'),
+              IconButton(
+                icon: Icon(Icons.content_copy),
+                onPressed: () {
+                  _copyToClipboard('$code');
+                },
+                tooltip: 'Copier dans le Presse-papiers',
+              ),
               Text('Utilisateurs: ${users.join(', ')}'),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  void _copyToClipboard(String text) {
+    Clipboard.setData(ClipboardData(text: text));
+    ScaffoldMessenger.of(context as BuildContext).showSnackBar(
+      SnackBar(
+        content: Text('Code copié dans le presse-papiers'),
       ),
     );
   }
