@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../components/restaurantList.dart';
-import '../components/header.dart';
+import '../components/restaurant/restaurantList.dart';
+import '../components/utils/header.dart';
 
 class BookingView extends StatelessWidget {
   final String address;

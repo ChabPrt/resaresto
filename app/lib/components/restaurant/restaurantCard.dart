@@ -1,25 +1,28 @@
-import 'package:app/components/wishForm.dart';
 import 'package:app/config/app_config.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import '../models/userModel.dart';
+import '../../models/restaurantModel.dart';
+import '../review/reviewsRestaurant.dart';
+import '../wish/wishForm.dart';
 
-class UserCard extends StatefulWidget {
-  final User user;
+class RestaurantCard extends StatefulWidget {
+  final Restaurant restaurant;
+  final String? date;
   final bool? isSelected;
-  final void Function(int userId)? onCardSelected;
+  final void Function(int restaurantId)? onCardSelected;
 
-  UserCard({
-    required this.user,
+  RestaurantCard({
+    required this.restaurant,
+    this.date,
     this.isSelected,
     this.onCardSelected,
   });
 
   @override
-  _UserCardState createState() => _UserCardState();
+  _RestaurantCardState createState() => _RestaurantCardState();
 }
 
-class _UserCardState extends State<UserCard> {
+class _RestaurantCardState extends State<RestaurantCard> {
   bool _isSelected = false;
 
   @override
@@ -32,7 +35,7 @@ class _UserCardState extends State<UserCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        widget.onCardSelected?.call(widget.user.id ?? 0);
+        widget.onCardSelected?.call(widget.restaurant.id ?? 0);
         setState(() {
           _isSelected = !_isSelected;
         });
@@ -45,9 +48,7 @@ class _UserCardState extends State<UserCard> {
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
-        side: _isSelected
-            ? BorderSide(color: Colors.green, width: 2.0)
-            : BorderSide.none,
+        side: _isSelected ? BorderSide(color: Colors.green, width: 2.0) : BorderSide.none,
       ),
       elevation: 4,
       margin: EdgeInsets.all(8),
@@ -57,15 +58,9 @@ class _UserCardState extends State<UserCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width / 3,
+                width: MediaQuery.of(context).size.width / 3,
                 padding: const EdgeInsets.all(15.0),
-                child: CircleAvatar(
-                  radius: 50,
-                  backgroundImage: _buildImageProvider(widget.user.image ?? ""),
-                ),
+                child: Carousel(images: widget.restaurant.image ?? []),
               ),
               Expanded(
                 child: Padding(
@@ -74,7 +69,7 @@ class _UserCardState extends State<UserCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.user.nom,
+                        widget.restaurant.nom,
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -83,34 +78,80 @@ class _UserCardState extends State<UserCard> {
                       ),
                       SizedBox(height: 8),
                       Text(
-                        widget.user.prenom,
+                        widget.restaurant.adresse,
                         style: TextStyle(fontSize: 16),
                       ),
                       SizedBox(height: 8),
-                      Text(
-                        widget.user.mail,
-                        style: TextStyle(fontSize: 16),
+                      Row(
+                        children: List.generate(
+                          5,
+                              (index) {
+                            if (index < widget.restaurant.note.round()) {
+                              return Icon(
+                                Icons.star,
+                                color: Colors.orange,
+                              );
+                            } else {
+                              return Icon(
+                                Icons.star,
+                                color: Colors.grey,
+                              );
+                            }
+                          },
+                        ),
                       ),
-                      SizedBox(height: 8),
                     ],
                   ),
                 ),
               ),
             ],
           ),
+          if (widget.date != null)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Les avis : ",
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                ReviewsRestaurantWrapper(idRestaurant: widget.restaurant.id ?? 0),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        "Faire une proposition de réservation ",
+                        style: TextStyle(
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      FloatingActionButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return WishForm(restaurant: widget.restaurant, date: widget.date ?? "");
+                            },
+                          );
+                        },
+                        child: Icon(Icons.add),
+                        backgroundColor: AppConfig.primaryColor,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
         ],
       ),
     );
   }
-
-  ImageProvider<Object> _buildImageProvider(String image) {
-    if (image.startsWith('http')) {
-      return NetworkImage(image);
-    } else {
-      return AssetImage("assets/img/user_default_icon.jpg");
-    }
-  }
 }
+
 class Carousel extends StatelessWidget {
   final List<String> images;
 
@@ -154,7 +195,7 @@ class Carousel extends StatelessWidget {
             Column(
               children: [
                 Icon(Icons.image, size: 50, color: Colors.grey),
-                Text('Aucune image du user'),
+                Text('Aucune image du restaurant'),
               ],
             ),
         ],

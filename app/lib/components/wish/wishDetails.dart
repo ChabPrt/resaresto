@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import '../config/app_config.dart';
-import '../models/wishModel.dart';
-import 'WishCard.dart';
+import '../../config/app_config.dart';
+import '../../models/wishModel.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+
+import 'WishCard.dart';
 
 class WishDetail extends StatefulWidget {
   final String date;

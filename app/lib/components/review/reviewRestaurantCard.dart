@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import '../models/reviewModel.dart';
+import '../../models/reviewModel.dart';
 
-class ReviewHomeCard extends StatelessWidget {
+class ReviewRestaurantCard extends StatelessWidget {
   final Review review;
-  final String restaurantName;
   final String userName;
 
-  ReviewHomeCard({required this.review, required this.restaurantName, required this.userName});
+  ReviewRestaurantCard({required this.review, required this.userName});
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +29,6 @@ class ReviewHomeCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              restaurantName,
-              style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
             SizedBox(height: 10.0),
             Row(
               children: [

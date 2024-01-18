@@ -1,6 +1,6 @@
-import 'package:app/components/wishList.dart';
 import 'package:flutter/material.dart';
-import '../config/app_config.dart';
+import '../../config/app_config.dart';
+import '../wish/wishList.dart';
 
 class GroupDetails extends StatelessWidget {
   final int idGroup;

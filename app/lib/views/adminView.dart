@@ -1,8 +1,8 @@
-import 'package:app/components/userList.dart';
 import 'package:flutter/material.dart';
-import '../components/header.dart';
-import '../components/restaurantAllItems.dart';
-import '../components/toolBar.dart';
+import '../components/user/userList.dart';
+import '../components/utils/header.dart';
+import '../components/restaurant/restaurantAllItems.dart';
+import '../components/utils/toolBar.dart';
 
 class AdminView extends StatefulWidget {
   @override

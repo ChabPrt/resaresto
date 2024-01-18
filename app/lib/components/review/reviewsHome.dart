@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:http/http.dart' as http;
-import '../config/app_config.dart';
-import './reviewHomeCard.dart';
+import '../../config/app_config.dart';
+import 'reviewHomeCard.dart';
 
-import '../models/reviewModel.dart';
+import '../../models/reviewModel.dart';
 
 class ReviewsHome extends StatelessWidget {
   final List<ReviewHomeCard> reviewHomeCards;

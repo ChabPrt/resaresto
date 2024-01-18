@@ -4,7 +4,7 @@ import 'package:app/models/userModel.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../config/app_config.dart';
+import '../../config/app_config.dart';
 
 class RegistrationScreen extends StatelessWidget {
   @override

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../components/loginForm.dart';
-import '../components/registerForm.dart';
+import '../components/connexion/loginForm.dart';
+import '../components/connexion/registerForm.dart';
 import '../config/app_config.dart';
 
 class LoginView extends StatefulWidget {

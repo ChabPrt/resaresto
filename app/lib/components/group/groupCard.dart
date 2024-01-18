@@ -1,7 +1,7 @@
 import 'package:app/config/app_config.dart';
 import 'package:flutter/material.dart';
 
-import 'package:app/components/groupDetails.dart';
+import 'groupDetails.dart';
 
 class GroupCard extends StatelessWidget {
   final int idGroup;

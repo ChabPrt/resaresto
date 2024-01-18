@@ -1,13 +1,13 @@
+import 'package:app/components/user/userProfileForm.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import '../config/app_config.dart';
-import 'package:app/components/userProfileForm.dart';
+import '../../config/app_config.dart';
+import '../../models/userModel.dart';
 import 'package:app/views/loginView.dart';
 
-import '../models/userModel.dart';
 
 class UserProfileScreen extends StatelessWidget {
   @override

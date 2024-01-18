@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../components/groupList.dart';
-import '../components/header.dart';
-import '../components/userProfile.dart';
+import '../components/group/groupList.dart';
+import '../components/user/userProfile.dart';
+import '../components/utils/header.dart';
 
 class ProfileView extends StatelessWidget {
   @override

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 
-import '../views/profileView.dart';
+import '../../views/profileView.dart';
 
 class UserProfileFormPopup extends StatelessWidget {
   final User userData;

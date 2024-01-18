@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:app/config/app_config.dart';
-import '../models/wishModel.dart';
+import '../../models/wishModel.dart';
 import 'package:http/http.dart' as http;
 
 class WishCard extends StatelessWidget {

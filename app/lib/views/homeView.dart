@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../components/header.dart';
-import '../components/searchResto.dart';
-import '../components/reviewsHome.dart';
+import '../components/utils/header.dart';
+import '../components/utils/searchResto.dart';
+import '../components/review/reviewsHome.dart';
 
 class HomeView extends StatelessWidget {
   @override

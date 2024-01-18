@@ -1,9 +1,9 @@
+import 'package:app/components/user/userCard.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../config/app_config.dart';
-import '../models/userModel.dart';
-import '../components/userCard.dart';
+import '../../config/app_config.dart';
+import '../../models/userModel.dart';
 
 class UserList extends StatefulWidget {
   final void Function(int?) onUserSelected;

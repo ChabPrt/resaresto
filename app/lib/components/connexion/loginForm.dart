@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:app/views/homeView.dart';
-import '../config/app_config.dart';
+import '../../config/app_config.dart';
 
 class LoginScreen extends StatelessWidget {
   @override

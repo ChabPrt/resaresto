@@ -8,10 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:app/config/app_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../models/restaurantModel.dart';
+import '../../models/restaurantModel.dart';
 import 'package:http/http.dart' as http;
 
-import '../views/loginView.dart';
+import '../../views/loginView.dart';
 
 class WishForm extends StatefulWidget {
   final Restaurant restaurant;

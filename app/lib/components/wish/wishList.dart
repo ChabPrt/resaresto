@@ -1,13 +1,12 @@
 import 'package:app/views/homeView.dart';
-import 'package:app/views/loginView.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../config/app_config.dart';
+import '../../config/app_config.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import '../models/wishModel.dart';
-import '../components/wishDetails.dart';
+import '../../models/wishModel.dart';
+import 'wishDetails.dart';
 
 class WishList extends StatelessWidget {
   final int idGroup;

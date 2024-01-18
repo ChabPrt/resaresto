@@ -1,10 +1,10 @@
 import 'dart:convert';
+import 'package:app/components/review/reviewRestaurantCard.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:http/http.dart' as http;
-import '../config/app_config.dart';
-import '../models/reviewModel.dart';
-import '../components/reviewRestaurantCard.dart';
+import '../../config/app_config.dart';
+import '../../models/reviewModel.dart';
 
 class ReviewsRestaurant extends StatelessWidget {
   final List<ReviewRestaurantCard> reviewRestaurantCards;

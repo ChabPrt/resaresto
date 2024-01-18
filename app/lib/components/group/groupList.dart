@@ -1,13 +1,14 @@
 import 'dart:convert';
 import 'dart:js';
-import 'package:app/components/groupForm.dart';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import '../config/app_config.dart';
+import '../../config/app_config.dart';
 
-import '../views/loginView.dart';
-import '../components/groupCard.dart';
+import '../../views/loginView.dart';
+import 'groupCard.dart';
+import 'groupForm.dart';
 
 class GroupList extends StatelessWidget {
   final List<GroupCard> groupCards;
