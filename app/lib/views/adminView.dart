@@ -1,3 +1,4 @@
+import 'package:app/components/userList.dart';
 import 'package:flutter/material.dart';
 import '../components/header.dart';
 import '../components/restaurantAllItems.dart';
@@ -11,11 +12,13 @@ class AdminView extends StatefulWidget {
 class _AdminViewState extends State<AdminView> {
   late int idSelectedItem;
   late int? selectedRestaurantId;
+  late int? selectedUserId;
 
   @override
   void initState() {
     super.initState();
     selectedRestaurantId = 0;
+    selectedUserId = 0;
   }
 
   @override
@@ -76,7 +79,7 @@ class _AdminViewState extends State<AdminView> {
                 ),
                 Row(
                   children: [
-                    Toolbar(context: "Utilisateurs"),
+                    Toolbar(context: "Utilisateurs", idCurrentElement: selectedUserId),
                   ],
                 ),
                 Container(
@@ -85,9 +88,9 @@ class _AdminViewState extends State<AdminView> {
                   ),
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
-                    child: RestaurantAllItems(
-                      onRestaurantSelected: (int? restaurantId) {
-                        // Ne faites rien ici pour les utilisateurs
+                    child: UserList(
+                      onUserSelected: (int? userId) {
+                        selectedUserId = userId;
                       },
                     ),
                   ),
