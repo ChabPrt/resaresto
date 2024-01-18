@@ -76,7 +76,7 @@ class RestaurantList extends StatelessWidget {
               itemCount: restaurants.length,
               itemBuilder: (context, index) {
                 Restaurant restaurant = restaurants[index];
-                return RestaurantCard(restaurant: restaurant, date: date);
+                return RestaurantCard(restaurant: restaurant, date: date, isNotSelectable: false);
               },
             ),
           );

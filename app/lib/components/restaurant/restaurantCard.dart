@@ -1,4 +1,3 @@
-import 'package:app/config/app_config.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../../models/restaurantModel.dart';
@@ -9,12 +8,14 @@ class RestaurantCard extends StatefulWidget {
   final Restaurant restaurant;
   final String? date;
   final bool? isSelected;
+  final bool isNotSelectable;
   final void Function(int restaurantId)? onCardSelected;
 
   RestaurantCard({
     required this.restaurant,
     this.date,
     this.isSelected,
+    this.isNotSelectable = true,
     this.onCardSelected,
   });
 
@@ -33,7 +34,8 @@ class _RestaurantCardState extends State<RestaurantCard> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return widget.isNotSelectable
+        ? GestureDetector(
       onTap: () {
         widget.onCardSelected?.call(widget.restaurant.id ?? 0);
         setState(() {
@@ -41,7 +43,8 @@ class _RestaurantCardState extends State<RestaurantCard> {
         });
       },
       child: _buildCard(context),
-    );
+    )
+        : _buildCard(context);
   }
 
   Widget _buildCard(BuildContext context) {
@@ -129,17 +132,15 @@ class _RestaurantCardState extends State<RestaurantCard> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      FloatingActionButton(
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return WishForm(restaurant: widget.restaurant, date: widget.date ?? "");
-                            },
-                          );
-                        },
-                        child: Icon(Icons.add),
-                        backgroundColor: AppConfig.primaryColor,
+                      Container(
+                        alignment: Alignment.topRight,
+                        padding: EdgeInsets.all(8.0),
+                        child: IconButton(
+                          icon: Icon(Icons.add),
+                          onPressed: () {
+                            _showWishFormDialog(context);
+                          },
+                        ),
                       ),
                     ],
                   ),
@@ -148,6 +149,17 @@ class _RestaurantCardState extends State<RestaurantCard> {
             ),
         ],
       ),
+    );
+  }
+
+  void _showWishFormDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: WishForm(restaurant: widget.restaurant, date: widget.date ?? ""),
+        );
+      },
     );
   }
 }
