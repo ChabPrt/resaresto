@@ -34,7 +34,6 @@ class _WishDetailState extends State<WishDetail> {
 
     if (correspondingWish != null) {
       if (selectedWish.id == correspondingWish!.id) {
-        // If the selectedWish is the same as correspondingWish, remove the user from usersOk
         correspondingWish!.usersOk?.remove(widget.connectedUserId);
 
         final response = await http.put(
@@ -48,7 +47,7 @@ class _WishDetailState extends State<WishDetail> {
 
         if (response.statusCode == 200) {
           print('Requête de suppression de l\'utilisateur de l\'ancienne proposition réussie');
-          setState(() {}); // Trigger a rebuild
+          setState(() {});
         } else {
           print('Erreur lors de la requête de suppression de l\'utilisateur de l\'ancienne proposition : ${response.statusCode}');
         }
@@ -66,14 +65,14 @@ class _WishDetailState extends State<WishDetail> {
 
         if (response.statusCode == 200) {
           print('Requête de suppression de l\'utilisateur de l\'ancienne proposition réussie');
-          setState(() {}); // Trigger a rebuild
+          setState(() {});
           updateUsersOk(selectedWish!, widget.connectedUserId);
         } else {
           print('Erreur lors de la requête de suppression de l\'utilisateur de l\'ancienne proposition : ${response.statusCode}');
         }
       }
     } else {
-      setState(() {}); // Trigger a rebuild
+      setState(() {});
       updateUsersOk(selectedWish!, widget.connectedUserId);
     }
   }
@@ -95,8 +94,7 @@ class _WishDetailState extends State<WishDetail> {
 
       if (response.statusCode == 200) {
         print('Requête ajout de l\'utilisateur actif dans la proposition ${wishToUpdate.id} réussie');
-        setState(() {}); // Trigger a rebuild
-        // Add any additional logic or state updates if needed
+        setState(() {});
       } else {
         print('Erreur lors de l\'ajout de l\'utilisateur actif dans la proposition : ${response.statusCode}');
       }

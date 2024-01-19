@@ -212,7 +212,7 @@ class _RestaurantFormState extends State<RestaurantForm> {
                         ),
                       );
                     }
-                        : null, // Désactiver le bouton si le formulaire n'est pas valide ou si la date n'est pas valide
+                        : null,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppConfig.principalColor,
                       foregroundColor: AppConfig.fontWhiteColor,

@@ -87,8 +87,7 @@ class WishList extends StatelessWidget {
     Map<String, List<Wish>> groupedProposals = {};
 
     for (Wish proposal in proposals) {
-      String date = proposal.date.toLocal().toString().split(' ')[0]; // Format de date, ajustez selon vos besoins
-
+      String date = proposal.date.toLocal().toString().split(' ')[0];
       groupedProposals.putIfAbsent(date, () => []);
       groupedProposals[date]!.add(proposal);
     }

@@ -33,7 +33,7 @@ class UserProfileFormPopup extends StatelessWidget {
               child: IconButton(
                 icon: Icon(Icons.close),
                 onPressed: () {
-                  Navigator.of(context).pop(); // Fermer la popup
+                  Navigator.of(context).pop();
                 },
               ),
             ),

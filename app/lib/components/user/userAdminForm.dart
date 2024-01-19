@@ -33,7 +33,6 @@ class _UserAdminFormState extends State<UserAdminForm> {
         } else if (snapshot.hasError) {
           return Text('Erreur de chargement des données: ${snapshot.error}');
         } else {
-          // Les données sont disponibles, vérifiez le niveau d'accès avant d'afficher le dialogue.
           if (snapshot.data!.levelAcces == 1) {
             return _buildAdminAlreadyExistsDialog(snapshot.data!);
           } else {
@@ -63,7 +62,7 @@ class _UserAdminFormState extends State<UserAdminForm> {
       actions: [
         TextButton(
           onPressed: () {
-            Navigator.of(context).pop(); // Ferme le dialogue
+            Navigator.of(context).pop();
           },
           child: Text('Retour'),
         ),

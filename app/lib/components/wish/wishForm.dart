@@ -283,8 +283,7 @@ class _WishFormState extends State<WishForm> {
         if (responseLink.statusCode == 201) {
           print('Utilisateur lié au groupe !');
         }else {
-          // La création du groupe a échoué, vous pouvez traiter la réponse d'erreur si nécessaire
-          print('Erreur lors de la liasion de l\'utilisateur au du groupe: ${responseLink.statusCode}');
+         print('Erreur lors de la liasion de l\'utilisateur au du groupe: ${responseLink.statusCode}');
         }
       } else {
         print(jsonString);
