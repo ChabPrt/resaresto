@@ -104,8 +104,14 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 labelText: 'Vérification du mot de passe'),
           ),
           const SizedBox(height: 40),
-          ElevatedButton(
-            onPressed: () {
+          ElevatedButton( onPressed: () {
+            if (!isValidEmail(emailController.text)) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Adresse e-mail invalide'),
+                ),
+              );
+            } else {
               User newUser = User(
                 id: 0,
                 nom: lastNameController.text,
@@ -116,6 +122,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 image: profileImageController.text,
               );
               saveUser(newUser);
+            }
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: AppConfig.principalColor,
@@ -131,4 +138,12 @@ class _RegistrationFormState extends State<RegistrationForm> {
       ),
     );
   }
+
+  bool isValidEmail(String email) {
+    RegExp emailRegExp = RegExp(
+      r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$',
+    );
+    return emailRegExp.hasMatch(email);
+  }
+
 }
