@@ -114,7 +114,6 @@ class UserProfileFormPopup extends StatelessWidget {
       if (response.statusCode == 200) {
         print('Inscription réussie');
 
-        //Pb de retour arrière
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => ProfileView()),
         );
