@@ -259,6 +259,7 @@ class _WishFormState extends State<WishForm> {
         apiUrl,
         headers: {
           'X-Apikey': '${AppConfig.apiKey}',
+          'Content-Type': 'application/json'
         },
         body: jsonString,
       );
@@ -277,6 +278,7 @@ class _WishFormState extends State<WishForm> {
           Uri.parse('${AppConfig.apiBaseUrl}/GroupePropositions'),
           headers: {
             'X-Apikey': '${AppConfig.apiKey}',
+            'Content-Type': 'application/json'
           },
           body: jsonString,
         );
